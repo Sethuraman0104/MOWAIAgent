@@ -1,0 +1,33 @@
+<!-- <section>
+    <h2>Chatbot</h2>
+    <div id="chatbox" style="border:1px solid #ccc; padding:10px; height:400px; overflow-y:auto;"></div>
+    <input type="text" id="chatInput" placeholder="Ask something..." style="width:80%">
+    <button onclick="sendMessage()">Send</button>
+</section>
+
+<script>
+    function appendMessage(role, msg) {
+        const chatbox = document.getElementById('chatbox');
+        const div = document.createElement('div');
+        div.innerHTML = `<b>${role}:</b> ${msg}`;
+        chatbox.appendChild(div);
+        chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    async function sendMessage() {
+    const msg = document.getElementById('chatInput').value;
+    if(!msg) return;
+    appendMessage('You', msg);
+
+    try {
+        const resp = await apiPost('/api/ai-chat/ask', { message: msg, userId: 1 });
+        appendMessage('AI', resp.reply);
+    } catch(e) {
+        console.error(e);
+        appendMessage('AI', 'Error: Cannot get response');
+    }
+
+    document.getElementById('chatInput').value = '';
+}
+
+</script> -->

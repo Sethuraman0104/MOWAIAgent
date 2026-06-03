@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predefined Questions</title>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="js/api.js"></script>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="app-header">
+    <div class="logo-area animated-logo" onclick="logoRipple(event)">
+        <div class="logo-bg">
+            <img src="assets/mowlogo.png" class="logo-img" alt="Logo">
+            <span class="shine"></span>
+        </div>
+        <span class="logo-text">MOW AI - Predefined Q&A</span>
+    </div>
+
+    <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Back
+    </a>
+</header>
+
+<!-- ================= ADD PREDEFINED QUESTION ================= -->
+<section class="glass-card add-predefined-section">
+    <h2 class="section-title">
+        <i class="fas fa-question-circle"></i> Add Predefined Question
+    </h2>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="question">Question</label>
+            <input type="text" id="question" class="glass-input" placeholder="Enter your question">
+        </div>
+
+        <div class="form-group">
+            <label for="answer">Answer</label>
+            <input type="text" id="answer" class="glass-input" placeholder="Enter answer">
+        </div>
+
+        <div class="form-group">
+            <label for="keywords">Keywords</label>
+            <input type="text" id="keywords" class="glass-input" placeholder="Comma separated keywords">
+        </div>
+
+        <div class="form-group add-btn-group">
+            <button class="btn-primary" onclick="addPredefined()">
+                <i class="fas fa-plus"></i> Add
+            </button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ================= PREDEFINED TABLE ================= -->
+<section class="glass-card">
+    <div class="table-header">
+        <h2><i class="fas fa-list"></i> All Predefined Questions</h2>
+        <input type="text" id="searchInput" placeholder="Search questions...">
+    </div>
+
+    <div class="table-wrapper">
+        <table id="predefinedTable">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Answer</th>
+                    <th>Keywords</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <div id="emptyState" class="empty-state hidden">
+    <i class="fas fa-inbox"></i>
+    <h3>No Predefined Questions Found</h3>
+    <p>Start adding questions using the form above.</p>
+</div>
+    </div>
+
+    <div class="pagination">
+        <button onclick="prevPage()">Prev</button>
+        <span id="pageInfo"></span>
+        <button onclick="nextPage()">Next</button>
+    </div>
+</section>
+
+<div id="customAlert" class="custom-alert hidden">
+    <div class="alert-box">
+
+        <div class="alert-icon success" id="alertIcon">
+            <i class="fas fa-circle-check"></i>
+        </div>
+
+        <h3 id="alertTitle">Info</h3>
+
+        <p id="alertMessage">Message</p>
+
+        <div class="alert-actions" id="alertActions">
+            <button class="alert-btn ok" onclick="closeAlert()">OK</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+    function showAlert(type, title, message) {
+
+    const modal = document.getElementById('customAlert');
+    const icon = document.getElementById('alertIcon');
+    const titleEl = document.getElementById('alertTitle');
+    const msgEl = document.getElementById('alertMessage');
+
+    icon.className = 'alert-icon ' + type;
+
+    if (type === 'success') {
+        icon.innerHTML = '<i class="fas fa-circle-check"></i>';
+    } else if (type === 'error') {
+        icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
+    } else {
+        icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+    }
+
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+
+    modal.classList.remove('hidden');
+}
+
+function closeAlert() {
+    document.getElementById('customAlert').classList.add('hidden');
+}
+
+let confirmResolve;
+
+function showConfirm(title, message) {
+    return new Promise(resolve => {
+
+        confirmResolve = resolve;
+
+        document.getElementById('alertTitle').textContent = title;
+        document.getElementById('alertMessage').textContent = message;
+
+        const icon = document.getElementById('alertIcon');
+        icon.className = 'alert-icon warning';
+        icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+
+        const actions = document.getElementById('alertActions');
+
+        actions.innerHTML = `
+            <button class="alert-btn cancel" onclick="resolveConfirm(false)">Cancel</button>
+            <button class="alert-btn ok" onclick="resolveConfirm(true)">Delete</button>
+        `;
+
+        document.getElementById('customAlert').classList.remove('hidden');
+    });
+}
+
+function resolveConfirm(value) {
+    document.getElementById('customAlert').classList.add('hidden');
+    if (confirmResolve) confirmResolve(value);
+}
+
+let predefined = [];
+let currentPage = 1;
+const pageSize = 6;
+
+async function loadPredefined() {
+    try {
+        predefined = await apiGet('/api/chat/predefined/list');
+        currentPage = 1;
+        renderTable();
+    } catch(e) {
+        showAlert(
+    'error',
+    'Load Failed',
+    'Unable to load predefined questions.'
+);
+    }
+}
+
+function renderTable() {
+    const tbody = document.querySelector('#predefinedTable tbody');
+    const emptyState = document.getElementById('emptyState');
+
+    const search = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtered = predefined.filter(p =>
+        p.question.toLowerCase().includes(search) ||
+        p.answer.toLowerCase().includes(search) ||
+        p.keywords.toLowerCase().includes(search)
+    );
+
+    // ✅ EMPTY STATE HANDLING
+    if (filtered.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        document.getElementById('pageInfo').innerText = '';
+        return;
+    } else {
+        emptyState.classList.add('hidden');
+    }
+
+    const start = (currentPage - 1) * pageSize;
+    const pageData = filtered.slice(start, start + pageSize);
+
+    tbody.innerHTML = '';
+    pageData.forEach(p => {
+        tbody.innerHTML += `
+        <tr>
+            <td>${p.question}</td>
+            <td>${p.answer}</td>
+            <td>${p.keywords}</td>
+            <td>
+                <button class="btn-danger" onclick="deletePredefined(${p.id})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </tr>`;
+    });
+
+    const totalPages = Math.ceil(filtered.length / pageSize) || 1;
+    document.getElementById('pageInfo').innerText =
+        `Page ${currentPage} of ${totalPages}`;
+}
+
+function nextPage(){
+    const totalPages = Math.ceil(predefined.length / pageSize) || 1;
+    if(currentPage < totalPages){
+        currentPage++;
+        renderTable();
+    }
+}
+
+function prevPage(){
+    if(currentPage > 1){
+        currentPage--;
+        renderTable();
+    }
+}
+
+document.getElementById('searchInput').addEventListener('input', () => {
+    currentPage = 1;
+    renderTable();
+});
+
+async function addPredefined(){
+    const q = document.getElementById('question').value.trim();
+    const a = document.getElementById('answer').value.trim();
+    const k = document.getElementById('keywords').value.trim();
+
+    if(!q || !a) return showAlert(
+    'warning',
+    'Validation Error',
+    'Question and Answer are required.'
+);
+
+    try{
+        await apiPost('/api/chat/predefined', { question: q, answer: a, keywords: k });
+        document.getElementById('question').value = '';
+        document.getElementById('answer').value = '';
+        document.getElementById('keywords').value = '';
+        loadPredefined();
+    }catch{
+        showAlert(
+    'error',
+    'Save Failed',
+    'Unable to add predefined question.'
+);
+    }
+}
+
+async function deletePredefined(id){
+    const confirmed = await showConfirm(
+    'Delete Question',
+    'Are you sure you want to delete this predefined question?'
+);
+
+if (!confirmed) return;
+    try {
+        await apiDelete(`/api/chat/predefined/${id}`); // ✅ matches controller route
+        loadPredefined();
+    } catch (err) {
+        console.error(err);
+        showAlert(
+    'error',
+    'Delete Failed',
+    'Unable to delete predefined question. Please try again.'
+);
+    }
+}
+
+loadPredefined();
+
+/* ===== Logo Ripple ===== */
+function logoRipple(e){
+    const bg = e.currentTarget.querySelector('.logo-bg');
+    const ripple = document.createElement('span');
+
+    ripple.style.position='absolute';
+    ripple.style.width='20px';
+    ripple.style.height='20px';
+    ripple.style.borderRadius='50%';
+    ripple.style.background='rgba(255,255,255,.6)';
+    ripple.style.left=(e.offsetX)+'px';
+    ripple.style.top=(e.offsetY)+'px';
+    ripple.style.transform='scale(1)';
+    ripple.style.opacity='1';
+    ripple.style.transition='all .6s ease';
+
+    bg.appendChild(ripple);
+
+    setTimeout(()=>{
+        ripple.style.transform='scale(15)';
+        ripple.style.opacity='0';
+    },10);
+
+    setTimeout(()=>ripple.remove(),600);
+}
+</script>
+
+</body>
+</html>
