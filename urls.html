@@ -1,344 +1,402 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOW AI Control Center - Manage URLs</title>
-<link rel="icon" type="image/png" href="assets/appicon.png">
-<link rel="stylesheet" href="css/admin.css">
-<link rel="stylesheet" href="css/urls.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<script src="js/api.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOW AI Control Center - Manage URLs</title>
+    <link rel="icon" type="image/png" href="assets/appicon.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/urls.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="js/api.js"></script>
 </head>
 
 <body>
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
 
-<div class="page">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
 
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="brand-card">
-
-            <div class="logo-shell">
-                <img src="assets/mowlogo.png" alt="">
+        <div class="mobile-brand">
+            <img src="assets/mowlogo.png" alt="">
+            <div>
+                <h3>MOW AI</h3>
+                <span>Knowledge Administration Platform</span>
             </div>
-
-            <h2>MOW AI</h2>
-
-            <p>
-                Knowledge Administration Platform
-            </p>
-
         </div>
 
-        <nav>
+    </div>
 
-            <a href="MOWAIHome.html" class="nav-card">
-                <i class="fas fa-house"></i>
-                <div>
-                    <strong>Dashboard</strong>
-                    <small>Overview</small>
-                </div>
-            </a>
-
-            <a href="documents.html" class="nav-card">
-                <i class="fas fa-file-lines"></i>
-                <div>
-                    <strong>Documents</strong>
-                    <small>Training Files</small>
-                </div>
-            </a>
-
-            <a href="urls.html" class="nav-card active">
-                <i class="fas fa-link"></i>
-                <div>
-                    <strong>URLs</strong>
-                    <small>Knowledge Sources</small>
-                </div>
-            </a>
-
-            <a href="predefined.html" class="nav-card">
-                <i class="fas fa-circle-question"></i>
-                <div>
-                    <strong>Questions</strong>
-                    <small>AI Answers</small>
-                </div>
-            </a>
-
-        </nav>
-
-    </aside>
-
-    <!-- CONTENT -->
-
-    <main class="content">
-
-        <div class="topbar">
+    <div class="mobile-overlay" onclick="closeSidebar()"></div>
+    <div class="page">
+        <aside class="sidebar">
 
             <div>
 
-                <h1><i class="fas fa-globe"></i> URL Management</h1>
+                <div class="brand-card">
 
-                <p>
-                    Manage website sources used by the AI knowledge base.
-                </p>
+                    <div class="logo-shell">
+                        <img src="assets/mowlogo.png" alt="">
+                    </div>
+
+                    <h2>MOW AI</h2>
+
+                    <p>
+                        Knowledge Administration Platform
+                    </p>
+
+                </div>
+
+                <nav>
+
+                    <a href="MOWAIHome.html" class="nav-card">
+                        <i class="fas fa-house"></i>
+                        <div>
+                            <strong>Dashboard</strong>
+                            <small>Overview</small>
+                        </div>
+                    </a>
+
+                    <a href="documents.html" class="nav-card">
+                        <i class="fas fa-file-lines"></i>
+                        <div>
+                            <strong>Documents</strong>
+                            <small>Training Files</small>
+                        </div>
+                    </a>
+
+                    <a href="urls.html" class="nav-card active">
+                        <i class="fas fa-link"></i>
+                        <div>
+                            <strong>URLs</strong>
+                            <small>Knowledge Sources</small>
+                        </div>
+                    </a>
+
+                    <a href="predefined.html" class="nav-card">
+                        <i class="fas fa-circle-question"></i>
+                        <div>
+                            <strong>Questions</strong>
+                            <small>AI Answers</small>
+                        </div>
+                    </a>
+
+                </nav>
 
             </div>
 
-        </div>
+            <!-- FOOTER -->
 
-        <!-- STATS -->
+            <div class="sidebar-footer">
 
-        <div class="stats-grid">
+                <div class="footer-divider"></div>
 
-            <div class="stat-card">
+                <div class="app-info">
 
-                <i class="fas fa-link"></i>
+                    <div class="app-badge">
+                        <i class="fas fa-robot"></i>
+                        MOW AI
+                    </div>
+
+                    <div class="app-meta">
+                        Version 1.0.0
+                    </div>
+
+                    <div class="app-meta">
+                        Developed by MOW ITD Team
+                    </div>
+
+                    <div class="app-meta">
+                        © 2026 Ministry of Works
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- CONTENT -->
+
+        <main class="content">
+
+            <div class="topbar">
 
                 <div>
 
-                    <h3 id="totalUrls">0</h3>
+                    <h1><i class="fas fa-globe"></i> URL Management</h1>
 
-                    <span>Total URLs</span>
-
-                </div>
-
-            </div>
-
-            <div class="stat-card">
-
-                <i class="fas fa-search"></i>
-
-                <div>
-
-                    <h3 id="searchResults">0</h3>
-
-                    <span>Search Results</span>
+                    <p>
+                        Manage website sources used by the AI knowledge base.
+                    </p>
 
                 </div>
 
             </div>
 
-        </div>
+            <!-- STATS -->
 
-        <!-- ADD URL -->
+            <div class="stats-grid">
 
-        <section class="url-form-card">
-
-            <div class="section-title">
-
-                <i class="fas fa-plus-circle"></i>
-
-                Add New Website Source
-
-            </div>
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label>Website Title</label>
-
-                    <input
-                        type="text"
-                        id="urlTitle"
-                        placeholder="Website Title">
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Website URL</label>
-
-                    <input
-                        type="text"
-                        id="urlInput"
-                        placeholder="https://example.com">
-
-                </div>
-
-                <button
-                    class="add-url-btn"
-                    onclick="addUrl()">
+                <div class="stat-card">
 
                     <i class="fas fa-link"></i>
 
-                    Add URL
+                    <div>
 
+                        <h3 id="totalUrls">0</h3>
+
+                        <span>Total URLs</span>
+
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <i class="fas fa-search"></i>
+
+                    <div>
+
+                        <h3 id="searchResults">0</h3>
+
+                        <span>Search Results</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ADD URL -->
+
+            <section class="url-form-card">
+
+                <div class="section-title">
+
+                    <i class="fas fa-plus-circle"></i>
+
+                    Add New Website Source
+
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label>Website Title</label>
+
+                        <input type="text" id="urlTitle" placeholder="Website Title">
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label>Website URL</label>
+
+                        <input type="text" id="urlInput" placeholder="https://example.com">
+
+                    </div>
+
+                    <button class="add-url-btn" onclick="addUrl()">
+
+                        <i class="fas fa-link"></i>
+
+                        Add URL
+
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- SEARCH -->
+
+            <section class="search-card">
+
+                <div class="section-title">
+
+                    <i class="fas fa-search"></i>
+
+                    Search URLs
+
+                </div>
+
+                <input type="text" id="searchInput" placeholder="Search URLs...">
+
+            </section>
+
+            <!-- URL CARDS -->
+
+            <section class="urls-container">
+
+                <div id="urlsGrid" class="urls-grid">
+                </div>
+
+                <div id="emptyState" class="empty-state hidden">
+
+                    <i class="fas fa-link"></i>
+
+                    <h3>No URLs Found</h3>
+
+                    <p>
+                        Add your first website source.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <!-- PAGINATION -->
+
+            <div class="pagination">
+
+                <button onclick="prevPage()">
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+
+                <span id="pageInfo"></span>
+
+                <button onclick="nextPage()">
+                    Next <i class="fas fa-arrow-right"></i>
                 </button>
 
             </div>
 
-        </section>
-
-        <!-- SEARCH -->
-
-        <section class="search-card">
-
-            <div class="section-title">
-
-                <i class="fas fa-search"></i>
-
-                Search URLs
-
-            </div>
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search URLs...">
-
-        </section>
-
-        <!-- URL CARDS -->
-
-        <section class="urls-container">
-
-            <div
-                id="urlsGrid"
-                class="urls-grid">
-            </div>
-
-            <div
-                id="emptyState"
-                class="empty-state hidden">
-
-                <i class="fas fa-link"></i>
-
-                <h3>No URLs Found</h3>
-
-                <p>
-                    Add your first website source.
-                </p>
-
-            </div>
-
-        </section>
-
-        <!-- PAGINATION -->
-
-        <div class="pagination">
-
-            <button onclick="prevPage()">
-                <i class="fas fa-arrow-left"></i> Previous
-            </button>
-
-            <span id="pageInfo"></span>
-
-            <button onclick="nextPage()">
-                Next <i class="fas fa-arrow-right"></i>
-            </button>
-
-        </div>
-
-    </main>
-
-</div>
-
-<div id="customAlert" class="custom-alert hidden">
-    <div class="alert-box">
-
-        <div class="alert-icon success" id="alertIcon">
-            <i class="fas fa-circle-check"></i>
-        </div>
-
-        <h3 id="alertTitle">Info</h3>
-
-        <p id="alertMessage">Message</p>
-
-        <div class="alert-actions" id="alertActions">
-            <button class="alert-btn ok" onclick="closeAlert()">OK</button>
-        </div>
+        </main>
 
     </div>
-</div>
 
-<!-- ================= LOADING OVERLAY ================= -->
-<div id="loadingOverlay" class="loading-overlay hidden">
-    <div class="loading-box">
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-box">
 
-        <div class="loading-spinner"></div>
+            <div class="alert-icon success" id="alertIcon">
+                <i class="fas fa-circle-check"></i>
+            </div>
 
-        <h3>Embedding URL...</h3>
+            <h3 id="alertTitle">Info</h3>
 
-        <p>Please wait while AI processes the website content.</p>
+            <p id="alertMessage">Message</p>
 
+            <div class="alert-actions" id="alertActions">
+                <button class="alert-btn ok" onclick="closeAlert()">OK</button>
+            </div>
+
+        </div>
     </div>
-</div>
 
-<script>
+    <!-- ================= LOADING OVERLAY ================= -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-box">
 
-/* ================= ALERT SYSTEM ================= */
+            <div class="loading-spinner"></div>
 
-let confirmResolve = null;
+            <h3>Embedding URL...</h3>
 
-function showAlert(type, title, message) {
+            <p>Please wait while AI processes the website content.</p>
 
-    const modal = document.getElementById('customAlert');
-    const icon = document.getElementById('alertIcon');
-    const titleEl = document.getElementById('alertTitle');
-    const msgEl = document.getElementById('alertMessage');
-    const actions = document.getElementById('alertActions');
+        </div>
+    </div>
 
-    // RESET ACTIONS
-    actions.innerHTML = `
+    <script>
+        function toggleSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.toggle('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.toggle('show');
+
+            document.body.classList.toggle('menu-open');
+        }
+
+        function closeSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.remove('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.remove('show');
+
+            document.body.classList.remove('menu-open');
+        }
+
+        /* ================= ALERT SYSTEM ================= */
+
+        let confirmResolve = null;
+
+        function showAlert(type, title, message) {
+
+            const modal = document.getElementById('customAlert');
+            const icon = document.getElementById('alertIcon');
+            const titleEl = document.getElementById('alertTitle');
+            const msgEl = document.getElementById('alertMessage');
+            const actions = document.getElementById('alertActions');
+
+            // RESET ACTIONS
+            actions.innerHTML = `
         <button class="alert-btn ok" onclick="closeAlert()">
             OK
         </button>
     `;
 
-    // ICON
-    icon.className = 'alert-icon ' + type;
+            // ICON
+            icon.className = 'alert-icon ' + type;
 
-    if (type === 'success') {
-        icon.innerHTML = '<i class="fas fa-circle-check"></i>';
-    }
-    else if (type === 'error') {
-        icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
-    }
-    else {
-        icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
-    }
+            if (type === 'success') {
+                icon.innerHTML = '<i class="fas fa-circle-check"></i>';
+            }
+            else if (type === 'error') {
+                icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
+            }
+            else {
+                icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+            }
 
-    titleEl.textContent = title;
-    msgEl.textContent = message;
+            titleEl.textContent = title;
+            msgEl.textContent = message;
 
-    modal.classList.remove('hidden');
-}
+            modal.classList.remove('hidden');
+        }
 
-function closeAlert() {
+        function closeAlert() {
 
-    document.getElementById('customAlert')
-        .classList.add('hidden');
+            document.getElementById('customAlert')
+                .classList.add('hidden');
 
-    confirmResolve = null;
-}
+            confirmResolve = null;
+        }
 
-/* ================= CONFIRM MODAL ================= */
+        /* ================= CONFIRM MODAL ================= */
 
-function showConfirm(title, message) {
+        function showConfirm(title, message) {
 
-    return new Promise(resolve => {
+            return new Promise(resolve => {
 
-        confirmResolve = resolve;
+                confirmResolve = resolve;
 
-        const modal = document.getElementById('customAlert');
-        const icon = document.getElementById('alertIcon');
-        const titleEl = document.getElementById('alertTitle');
-        const msgEl = document.getElementById('alertMessage');
-        const actions = document.getElementById('alertActions');
+                const modal = document.getElementById('customAlert');
+                const icon = document.getElementById('alertIcon');
+                const titleEl = document.getElementById('alertTitle');
+                const msgEl = document.getElementById('alertMessage');
+                const actions = document.getElementById('alertActions');
 
-        icon.className = 'alert-icon warning';
-        icon.innerHTML =
-            '<i class="fas fa-triangle-exclamation"></i>';
+                icon.className = 'alert-icon warning';
+                icon.innerHTML =
+                    '<i class="fas fa-triangle-exclamation"></i>';
 
-        titleEl.textContent = title;
-        msgEl.textContent = message;
+                titleEl.textContent = title;
+                msgEl.textContent = message;
 
-        actions.innerHTML = `
+                actions.innerHTML = `
             <button class="alert-btn cancel"
                 onclick="resolveConfirm(false)">
                 Cancel
@@ -350,137 +408,137 @@ function showConfirm(title, message) {
             </button>
         `;
 
-        modal.classList.remove('hidden');
-    });
-}
+                modal.classList.remove('hidden');
+            });
+        }
 
-function resolveConfirm(value) {
+        function resolveConfirm(value) {
 
-    document.getElementById('customAlert')
-        .classList.add('hidden');
+            document.getElementById('customAlert')
+                .classList.add('hidden');
 
-    if (confirmResolve) {
-        confirmResolve(value);
-    }
+            if (confirmResolve) {
+                confirmResolve(value);
+            }
 
-    confirmResolve = null;
-}
+            confirmResolve = null;
+        }
 
-/* ================= LOADER ================= */
+        /* ================= LOADER ================= */
 
-function showLoader(message = "Loading...") {
+        function showLoader(message = "Loading...") {
 
-    const overlay =
-        document.getElementById('loadingOverlay');
+            const overlay =
+                document.getElementById('loadingOverlay');
 
-    overlay.querySelector('h3').innerText = message;
+            overlay.querySelector('h3').innerText = message;
 
-    overlay.classList.remove('hidden');
-}
+            overlay.classList.remove('hidden');
+        }
 
-function hideLoader() {
+        function hideLoader() {
 
-    document.getElementById('loadingOverlay')
-        .classList.add('hidden');
-}
+            document.getElementById('loadingOverlay')
+                .classList.add('hidden');
+        }
 
-/* ================= DATA ================= */
+        /* ================= DATA ================= */
 
-let urls = [];
-let currentPage = 1;
-const pageSize = 6;
+        let urls = [];
+        let currentPage = 1;
+        const pageSize = 6;
 
-/* ================= LOAD URLS ================= */
+        /* ================= LOAD URLS ================= */
 
-async function loadUrls() {
+        async function loadUrls() {
 
-    showLoader("Loading Embedded URLs...");
+            showLoader("Loading Embedded URLs...");
 
-    try {
+            try {
 
-        urls = await apiGet('/api/urls/list');
+                urls = await apiGet('/api/urls/list');
 
-        document.getElementById('totalUrls').innerText =
-    urls.length;
+                document.getElementById('totalUrls').innerText =
+                    urls.length;
 
-        currentPage = 1;
+                currentPage = 1;
 
-        renderTable();
-    }
-    catch (err) {
+                renderTable();
+            }
+            catch (err) {
 
-        console.error(err);
+                console.error(err);
 
-        showAlert(
-            'error',
-            'Load Failed',
-            'Unable to load URLs from the server.'
-        );
-    }
-    finally {
+                showAlert(
+                    'error',
+                    'Load Failed',
+                    'Unable to load URLs from the server.'
+                );
+            }
+            finally {
 
-        hideLoader();
-    }
-}
+                hideLoader();
+            }
+        }
 
-/* ================= RENDER TABLE ================= */
+        /* ================= RENDER TABLE ================= */
 
-function renderTable(){
+        function renderTable() {
 
-    const grid =
-        document.getElementById('urlsGrid');
+            const grid =
+                document.getElementById('urlsGrid');
 
-    const emptyState =
-        document.getElementById('emptyState');
+            const emptyState =
+                document.getElementById('emptyState');
 
-    const search =
-        document.getElementById('searchInput')
-        .value.toLowerCase();
+            const search =
+                document.getElementById('searchInput')
+                    .value.toLowerCase();
 
-    const filtered =
-        urls.filter(u =>
-            (u.title || '')
-            .toLowerCase()
-            .includes(search)
-            ||
-            (u.url || '')
-            .toLowerCase()
-            .includes(search)
-        );
+            const filtered =
+                urls.filter(u =>
+                    (u.title || '')
+                        .toLowerCase()
+                        .includes(search)
+                    ||
+                    (u.url || '')
+                        .toLowerCase()
+                        .includes(search)
+                );
 
-    document.getElementById('totalUrls').innerText =
-        urls.length;
+            document.getElementById('totalUrls').innerText =
+                urls.length;
 
-    document.getElementById('searchResults').innerText =
-        filtered.length;
+            document.getElementById('searchResults').innerText =
+                filtered.length;
 
-    if(filtered.length === 0){
+            if (filtered.length === 0) {
 
-        grid.innerHTML='';
+                grid.innerHTML = '';
 
-        emptyState.classList.remove('hidden');
+                emptyState.classList.remove('hidden');
 
-        document.getElementById('pageInfo').innerText='';
+                document.getElementById('pageInfo').innerText = '';
 
-        return;
-    }
+                return;
+            }
 
-    emptyState.classList.add('hidden');
+            emptyState.classList.add('hidden');
 
-    const start =
-        (currentPage - 1) * pageSize;
+            const start =
+                (currentPage - 1) * pageSize;
 
-    const pageData =
-        filtered.slice(
-            start,
-            start + pageSize
-        );
+            const pageData =
+                filtered.slice(
+                    start,
+                    start + pageSize
+                );
 
-    grid.innerHTML='';
+            grid.innerHTML = '';
 
-    pageData.forEach(u=>{
+            pageData.forEach(u => {
 
-        grid.innerHTML += `
+                grid.innerHTML += `
 
         <div class="url-card">
 
@@ -513,223 +571,224 @@ function renderTable(){
         </div>
 
         `;
-    });
+            });
 
-    const totalPages =
-        Math.ceil(filtered.length / pageSize) || 1;
+            const totalPages =
+                Math.ceil(filtered.length / pageSize) || 1;
 
-    document.getElementById('pageInfo').innerText =
-        `Page ${currentPage} of ${totalPages}`;
-}
+            document.getElementById('pageInfo').innerText =
+                `Page ${currentPage} of ${totalPages}`;
+        }
 
-/* ================= PAGINATION ================= */
+        /* ================= PAGINATION ================= */
 
-function nextPage() {
+        function nextPage() {
 
-    if (currentPage * pageSize < urls.length) {
+            if (currentPage * pageSize < urls.length) {
 
-        currentPage++;
+                currentPage++;
 
-        renderTable();
-    }
-}
-
-function prevPage() {
-
-    if (currentPage > 1) {
-
-        currentPage--;
-
-        renderTable();
-    }
-}
-
-/* ================= SEARCH ================= */
-
-document
-    .getElementById('searchInput')
-    .addEventListener('input', () => {
-
-        currentPage = 1;
-
-        renderTable();
-    });
-
-/* ================= ADD URL ================= */
-
-async function addUrl() {
-
-    const url =
-        document.getElementById('urlInput')
-        .value
-        .trim();
-
-    const title =
-        document.getElementById('urlTitle')
-        .value
-        .trim();
-
-    if (!url || !title) {
-
-        showAlert(
-            'warning',
-            'Validation Error',
-            'Title and URL are required.'
-        );
-
-        return;
-    }
-
-    showLoader("Embedding URL...");
-
-    try {
-
-        const result = await apiPost(
-            '/api/urls/add',
-            {
-                url,
-                title
+                renderTable();
             }
-        );
-
-        if (result.success) {
-
-            // CLEAR INPUTS
-            document.getElementById('urlInput').value = '';
-            document.getElementById('urlTitle').value = '';
-
-            // RELOAD TABLE
-            await loadUrls();
-
-            // SUCCESS ALERT
-            showAlert(
-                'success',
-                'URL Embedded',
-                'Website content embedded successfully.'
-            );
         }
-        else {
 
-            showAlert(
-                'error',
-                'Add URL Failed',
-                result.error || 'Unable to add URL.'
-            );
-        }
-    }
-    catch (err) {
+        function prevPage() {
 
-        console.error(err);
+            if (currentPage > 1) {
 
-        showAlert(
-            'error',
-            'Add URL Failed',
-            err.message || 'Something went wrong.'
-        );
-    }
-    finally {
+                currentPage--;
 
-        hideLoader();
-    }
-}
-
-/* ================= DELETE URL ================= */
-
-async function deleteUrl(id) {
-
-    const confirmed = await showConfirm(
-        'Delete URL',
-        'Are you sure you want to delete this URL?'
-    );
-
-    if (!confirmed)
-        return;
-
-    showLoader("Deleting URL...");
-
-    try {
-
-        // ✅ USE POST INSTEAD OF DELETE
-        const result = await apiPost(
-            '/api/urls/delete',
-            {
-                id: id
+                renderTable();
             }
-        );
-
-        if (result.success) {
-
-            await loadUrls();
-
-            showAlert(
-                'success',
-                'URL Deleted',
-                'URL deleted successfully.'
-            );
         }
-        else {
 
-            showAlert(
-                'error',
-                'Delete Failed',
-                result.error || 'Unable to delete URL.'
-            );
+        /* ================= SEARCH ================= */
+
+        document
+            .getElementById('searchInput')
+            .addEventListener('input', () => {
+
+                currentPage = 1;
+
+                renderTable();
+            });
+
+        /* ================= ADD URL ================= */
+
+        async function addUrl() {
+
+            const url =
+                document.getElementById('urlInput')
+                    .value
+                    .trim();
+
+            const title =
+                document.getElementById('urlTitle')
+                    .value
+                    .trim();
+
+            if (!url || !title) {
+
+                showAlert(
+                    'warning',
+                    'Validation Error',
+                    'Title and URL are required.'
+                );
+
+                return;
+            }
+
+            showLoader("Embedding URL...");
+
+            try {
+
+                const result = await apiPost(
+                    '/api/urls/add',
+                    {
+                        url,
+                        title
+                    }
+                );
+
+                if (result.success) {
+
+                    // CLEAR INPUTS
+                    document.getElementById('urlInput').value = '';
+                    document.getElementById('urlTitle').value = '';
+
+                    // RELOAD TABLE
+                    await loadUrls();
+
+                    // SUCCESS ALERT
+                    showAlert(
+                        'success',
+                        'URL Embedded',
+                        'Website content embedded successfully.'
+                    );
+                }
+                else {
+
+                    showAlert(
+                        'error',
+                        'Add URL Failed',
+                        result.error || 'Unable to add URL.'
+                    );
+                }
+            }
+            catch (err) {
+
+                console.error(err);
+
+                showAlert(
+                    'error',
+                    'Add URL Failed',
+                    err.message || 'Something went wrong.'
+                );
+            }
+            finally {
+
+                hideLoader();
+            }
         }
-    }
-    catch (err) {
 
-        console.error(err);
+        /* ================= DELETE URL ================= */
 
-        showAlert(
-            'error',
-            'Delete Failed',
-            err.message || 'Unable to delete URL.'
-        );
-    }
-    finally {
+        async function deleteUrl(id) {
 
-        hideLoader();
-    }
-}
+            const confirmed = await showConfirm(
+                'Delete URL',
+                'Are you sure you want to delete this URL?'
+            );
 
-/* ================= INIT ================= */
+            if (!confirmed)
+                return;
 
-loadUrls();
+            showLoader("Deleting URL...");
 
-/* ================= LOGO RIPPLE ================= */
+            try {
 
-function logoRipple(e) {
+                // ✅ USE POST INSTEAD OF DELETE
+                const result = await apiPost(
+                    '/api/urls/delete',
+                    {
+                        id: id
+                    }
+                );
 
-    const bg =
-        e.currentTarget.querySelector('.logo-bg');
+                if (result.success) {
 
-    const ripple =
-        document.createElement('span');
+                    await loadUrls();
 
-    ripple.style.position = 'absolute';
-    ripple.style.width = '20px';
-    ripple.style.height = '20px';
-    ripple.style.borderRadius = '50%';
-    ripple.style.background = 'rgba(255,255,255,.6)';
-    ripple.style.left = (e.offsetX) + 'px';
-    ripple.style.top = (e.offsetY) + 'px';
-    ripple.style.transform = 'scale(1)';
-    ripple.style.opacity = '1';
-    ripple.style.transition = 'all .6s ease';
+                    showAlert(
+                        'success',
+                        'URL Deleted',
+                        'URL deleted successfully.'
+                    );
+                }
+                else {
 
-    bg.appendChild(ripple);
+                    showAlert(
+                        'error',
+                        'Delete Failed',
+                        result.error || 'Unable to delete URL.'
+                    );
+                }
+            }
+            catch (err) {
 
-    setTimeout(() => {
+                console.error(err);
 
-        ripple.style.transform = 'scale(15)';
-        ripple.style.opacity = '0';
+                showAlert(
+                    'error',
+                    'Delete Failed',
+                    err.message || 'Unable to delete URL.'
+                );
+            }
+            finally {
 
-    }, 10);
+                hideLoader();
+            }
+        }
 
-    setTimeout(() => ripple.remove(), 600);
-}
+        /* ================= INIT ================= */
 
-</script>
+        loadUrls();
+
+        /* ================= LOGO RIPPLE ================= */
+
+        function logoRipple(e) {
+
+            const bg =
+                e.currentTarget.querySelector('.logo-bg');
+
+            const ripple =
+                document.createElement('span');
+
+            ripple.style.position = 'absolute';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255,255,255,.6)';
+            ripple.style.left = (e.offsetX) + 'px';
+            ripple.style.top = (e.offsetY) + 'px';
+            ripple.style.transform = 'scale(1)';
+            ripple.style.opacity = '1';
+            ripple.style.transition = 'all .6s ease';
+
+            bg.appendChild(ripple);
+
+            setTimeout(() => {
+
+                ripple.style.transform = 'scale(15)';
+                ripple.style.opacity = '0';
+
+            }, 10);
+
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+    </script>
 
 </body>
+
 </html>

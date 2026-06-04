@@ -32,6 +32,13 @@ body{
 .page{
     display:flex;
     min-height:100vh;
+    background:var(--bg);
+}
+
+@media (max-width:1024px){
+    .page{
+        flex-direction:column;
+    }
 }
 
 /* =====================================
@@ -39,10 +46,14 @@ body{
 ===================================== */
 
 .sidebar{
-    width:280px;
+    width:300px;
+    min-width:300px;
     background:#fff;
     border-right:1px solid var(--border);
     padding:20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 /* =====================================
@@ -131,6 +142,44 @@ body{
     .logo-shell img{
         max-width:120px;
     }
+
+    .brand-card p{
+    display:none;
+}
+}
+
+@media(max-width:768px){
+
+    .brand-card{
+
+        display:flex;
+        align-items:center;
+        gap:15px;
+
+        text-align:left;
+
+        padding:18px;
+    }
+
+    .logo-shell{
+
+        width:110px;
+        min-width:110px;
+
+        min-height:70px;
+    }
+
+    .logo-shell img{
+        max-width:90px;
+    }
+
+    .brand-card h2{
+        font-size:20px;
+    }
+
+    .brand-card p{
+        font-size:12px;
+    }
 }
 
 /* =====================================
@@ -218,6 +267,42 @@ nav{
 .content{
     flex:1;
     padding:25px;
+    min-width:0;
+}
+
+@media(max-width:768px){
+
+    .content{
+        padding:15px;
+    }
+}
+
+@media(max-width:768px){
+
+    nav{
+
+        display:grid;
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+        gap:10px;
+    }
+
+    .nav-card{
+
+        flex-direction:column;
+
+        text-align:center;
+
+        gap:8px;
+
+        padding:15px;
+    }
+
+    .nav-card small{
+        display:none;
+    }
 }
 
 /* =====================================
@@ -226,23 +311,38 @@ nav{
 
 .topbar{
 
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
     background:#fff;
 
     border-radius:18px;
 
     padding:18px 24px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
     border:1px solid var(--border);
     margin-bottom:20px;
 }
 
 .topbar h1{
-    font-size:26px;
-    color:var(--dark);
+    font-size:28px;
+}
+
+@media(max-width:768px){
+
+    .topbar{
+        padding:18px;
+    }
+
+    .topbar h1{
+        font-size:22px;
+    }
 }
 
 .topbar p{
@@ -475,8 +575,13 @@ nav{
     right:25px;
     bottom:95px;
 
-    width:380px;
-    height:600px;
+        width:420px;
+
+    max-width:calc(100vw - 20px);
+
+    height:650px;
+
+    max-height:85vh;
 
     background:#fff;
 
@@ -583,6 +688,39 @@ nav{
     line-height:1.7;
 
     font-size:14px;
+}
+
+@media(max-width:768px){
+
+    #chatWidget{
+
+        position:fixed;
+
+        top:70px; /* mobile header height */
+
+        left:0;
+        right:0;
+        bottom:0;
+
+        width:100%;
+
+        height:calc(100vh - 70px);
+
+        max-height:none;
+
+        border-radius:0;
+
+        z-index:10000;
+    }
+
+    #openChatBtn{
+
+        width:60px;
+        height:60px;
+
+        right:15px;
+        bottom:15px;
+    }
 }
 
 .predefined{
@@ -857,4 +995,298 @@ nav{
     to{
         opacity: 1;
     }
+}
+
+.sidebar-footer{
+
+    margin-top:25px;
+
+    flex-shrink:0;
+    margin-top:auto;
+}
+
+.footer-divider{
+
+    height:1px;
+
+    background:#e5e7eb;
+
+    margin-bottom:20px;
+}
+
+.app-info{
+
+    background:linear-gradient(
+        135deg,
+        #fafafa,
+        #ffffff
+    );
+
+    border:1px solid #ececec;
+
+    border-radius:16px;
+
+    padding:16px;
+}
+
+.app-meta{
+
+    font-size:12px;
+
+    color:#6b7280;
+
+    margin-bottom:8px;
+
+    line-height:1.5;
+}
+/* ===========================
+   MOBILE LAYOUT
+=========================== */
+
+.mobile-header,
+.mobile-overlay{
+    display:none;
+}
+
+@media (max-width:900px){
+
+    /* ===========================
+       HEADER
+    ============================ */
+
+    .mobile-header{
+
+        display:flex;
+
+        position:fixed;
+
+        top:0;
+        left:0;
+        right:0;
+
+        height:70px;
+
+        background:#fff;
+
+        border-bottom:1px solid #e5e7eb;
+
+        z-index:9999;
+
+        padding:0 12px;
+
+        align-items:center;
+
+        gap:12px;
+
+        overflow:hidden;
+
+        box-shadow:
+        0 4px 15px rgba(0,0,0,.05);
+    }
+
+    .mobile-menu-btn{
+
+        width:42px;
+        height:42px;
+
+        min-width:42px;
+
+        border:none;
+
+        border-radius:12px;
+
+        background:#fff1f2;
+
+        color:#d50f1b;
+
+        cursor:pointer;
+
+        display:flex;
+        align-items:center;
+        justify-content:center;
+
+        flex-shrink:0;
+    }
+
+    /* ===========================
+       BRAND AREA
+    ============================ */
+
+    .mobile-brand{
+
+        flex:1;
+
+        min-width:0;
+
+        display:flex;
+
+        align-items:center;
+
+        gap:10px;
+
+        overflow:hidden;
+    }
+
+    .mobile-brand img{
+
+        width:42px;
+        height:42px;
+
+        object-fit:contain;
+
+        flex-shrink:0;
+    }
+
+    .mobile-brand > div{
+
+        flex:1;
+
+        min-width:0;
+
+        overflow:hidden;
+    }
+
+    .mobile-brand h3{
+
+        margin:0;
+
+        font-size:16px;
+
+        font-weight:700;
+
+        color:var(--dark);
+
+        line-height:1.2;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+    }
+
+    .mobile-brand span{
+
+        display:block;
+
+        font-size:10px;
+
+        color:#6b7280;
+
+        line-height:1.2;
+
+        white-space:nowrap;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+    }
+
+    /* ===========================
+       PAGE
+    ============================ */
+
+    .page{
+
+        display:block;
+
+        padding-top:70px;
+    }
+
+    .content{
+
+        width:100%;
+
+        margin:0;
+
+        padding:15px;
+    }
+
+    /* ===========================
+       SIDEBAR
+    ============================ */
+
+    .sidebar{
+
+        position:fixed;
+
+        top:70px;
+
+        left:-320px;
+
+        width:300px;
+
+        height:calc(100vh - 70px);
+
+        background:#fff;
+
+        overflow-y:auto;
+
+        z-index:9998;
+
+        transition:left .3s ease;
+
+        box-shadow:
+        0 10px 40px rgba(0,0,0,.15);
+    }
+
+    .sidebar.show{
+        left:0;
+    }
+
+    /* ===========================
+       OVERLAY
+    ============================ */
+
+    .mobile-overlay{
+
+        display:block;
+
+        position:fixed;
+
+        inset:0;
+
+        background:rgba(0,0,0,.45);
+
+        z-index:9997;
+
+        opacity:0;
+
+        visibility:hidden;
+
+        transition:.3s ease;
+    }
+
+    .mobile-overlay.show{
+
+        opacity:1;
+
+        visibility:visible;
+    }
+}
+
+/* Extra Small Phones */
+
+@media (max-width:480px){
+
+    .mobile-header{
+        padding:0 10px;
+    }
+
+    .mobile-brand img{
+        width:38px;
+        height:38px;
+    }
+
+    .mobile-brand h3{
+        font-size:15px;
+    }
+
+    .mobile-brand p{
+        font-size:40px;
+    }
+}
+
+body.menu-open{
+    overflow:hidden;
 }

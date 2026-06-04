@@ -8,224 +8,290 @@
 
     <link rel="icon" type="image/png" href="assets/appicon.png">
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="stylesheet" href="css/admin.css">
 </head>
 
 <body>
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
 
-<div class="page">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-    <div class="sidebar-top">
-
-        <div class="brand-card">
-
-            <div class="logo-shell">
-
-                <img src="assets/mowlogo.png">
-
+        <div class="mobile-brand">
+            <img src="assets/mowlogo.png" alt="">
+            <div>
+                <h3>MOW AI</h3>
+                <span>Knowledge Administration Platform</span>
             </div>
-
-            <h2>MOW AI</h2>
-
-            <p>
-                Knowledge Administration Platform
-            </p>
-
         </div>
 
     </div>
 
-    <nav>
-         <a href="MOWAIHome.html" class="nav-card active">
-                <i class="fas fa-house"></i>
-                <div>
-                    <strong>Dashboard</strong>
-                    <small>Overview</small>
+    <div class="mobile-overlay" onclick="closeSidebar()"></div>
+
+    <div class="page">
+        <aside class="sidebar" id="sidebar">
+
+            <div>
+
+                <div class="brand-card">
+
+                    <div class="logo-shell">
+                        <img src="assets/mowlogo.png" alt="">
+                    </div>
+
+                    <h2>MOW AI</h2>
+
+                    <p>
+                        Knowledge Administration Platform
+                    </p>
+
                 </div>
-            </a>
 
-        <a href="documents.html" class="nav-card">
-            <i class="fas fa-file-lines"></i>
-            <div>
-                <strong>Documents</strong>
-                <small>Training Files</small>
-            </div>
-        </a>
+                <nav>
 
-        <a href="urls.html" class="nav-card">
-            <i class="fas fa-link"></i>
-            <div>
-                <strong>URLs</strong>
-                <small>Website Sources</small>
-            </div>
-        </a>
+                    <a href="MOWAIHome.html" class="nav-card active">
+                        <i class="fas fa-house"></i>
+                        <div>
+                            <strong>Dashboard</strong>
+                            <small>Overview</small>
+                        </div>
+                    </a>
 
-        <a href="predefined.html" class="nav-card">
-            <i class="fas fa-circle-question"></i>
-            <div>
-                <strong>Questions</strong>
-                <small>Predefined Answers</small>
-            </div>
-        </a>
+                    <a href="documents.html" class="nav-card">
+                        <i class="fas fa-file-lines"></i>
+                        <div>
+                            <strong>Documents</strong>
+                            <small>Training Files</small>
+                        </div>
+                    </a>
 
-    </nav>
+                    <a href="urls.html" class="nav-card">
+                        <i class="fas fa-link"></i>
+                        <div>
+                            <strong>URLs</strong>
+                            <small>Knowledge Sources</small>
+                        </div>
+                    </a>
 
-</aside>
+                    <a href="predefined.html" class="nav-card">
+                        <i class="fas fa-circle-question"></i>
+                        <div>
+                            <strong>Questions</strong>
+                            <small>AI Answers</small>
+                        </div>
+                    </a>
 
-    <!-- MAIN CONTENT -->
-    <main class="content">
+                </nav>
 
-        <header class="topbar">
-
-            <div>
-                <h1><i class="fas fa-robot"></i> MOW AI Control Center</h1>
-                <p>
-                    Knowledge Management & Chatbot Administration
-                </p>
             </div>
 
-            <button class="ai-status">
-                <span></span>
-                AI Online
+            <!-- FOOTER -->
+
+            <div class="sidebar-footer">
+
+                <div class="footer-divider"></div>
+
+                <div class="app-info">
+
+                    <div class="app-badge">
+                        <i class="fas fa-robot"></i>
+                        MOW AI
+                    </div>
+
+                    <div class="app-meta">
+                        Version 1.0.0
+                    </div>
+
+                    <div class="app-meta">
+                        Developed by MOW ITD Team
+                    </div>
+
+                    <div class="app-meta">
+                        © 2026 Ministry of Works
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="content">
+
+            <header class="topbar">
+
+                <div>
+                    <h1><i class="fas fa-robot"></i> MOW AI Control Center</h1>
+                    <p>
+                        Knowledge Management & Chatbot Administration
+                    </p>
+                </div>
+
+                <button class="ai-status">
+                    <span></span>
+                    AI Online
+                </button>
+
+            </header>
+
+            <!-- HERO -->
+            <section class="hero">
+
+                <div class="hero-left">
+
+                    <div class="tag">
+                        <i class="fas fa-sparkles"></i>
+                        Artificial Intelligence Platform
+                    </div>
+
+                    <h2>
+                        Manage Knowledge Sources
+                        For MOW AI Chatbot
+                    </h2>
+
+                    <p>
+                        Configure chatbot behaviour, train AI using
+                        documents and URLs, and manage predefined
+                        responses from one centralized dashboard.
+                    </p>
+
+                </div>
+
+                <div class="hero-right">
+
+                    <div class="orb"></div>
+
+                </div>
+
+            </section>
+
+            <!-- QUICK ACCESS -->
+            <section class="cards">
+
+                <a href="documents.html" class="dashboard-card">
+
+                    <i class="fas fa-file-alt"></i>
+
+                    <h3>Documents</h3>
+
+                    <p>
+                        Manage uploaded AI knowledge documents.
+                    </p>
+
+                </a>
+
+                <a href="urls.html" class="dashboard-card">
+
+                    <i class="fas fa-link"></i>
+
+                    <h3>URLs</h3>
+
+                    <p>
+                        Configure approved websites for AI training.
+                    </p>
+
+                </a>
+
+                <a href="predefined.html" class="dashboard-card">
+
+                    <i class="fas fa-question-circle"></i>
+
+                    <h3>Questions</h3>
+
+                    <p>
+                        Manage predefined AI responses.
+                    </p>
+
+                </a>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <!-- CHAT BUTTON -->
+    <button id="openChatBtn">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <div id="chatWidget" class="hidden">
+
+        <div id="chatHeader">
+
+            <div class="chatBrand">
+
+                <div class="chatLogo">
+                    <i class="fas fa-robot"></i>
+                </div>
+
+                <div>
+
+                    <strong>MOW AI Assistant</strong>
+
+                    <small>Knowledge Engine</small>
+
+                </div>
+
+            </div>
+
+            <button onclick="toggleChat()">
+                <i class="fas fa-times"></i>
             </button>
 
-        </header>
+        </div>
 
-        <!-- HERO -->
-        <section class="hero">
+        <div id="chatBody"></div>
 
-            <div class="hero-left">
+        <div id="chatInputContainer">
 
-                <div class="tag">
-                    <i class="fas fa-sparkles"></i>
-                    Artificial Intelligence Platform
-                </div>
+            <input type="text" id="chatInput" placeholder="Ask AI anything...">
 
-                <h2>
-                    Manage Knowledge Sources
-                    For MOW AI Chatbot
-                </h2>
-
-                <p>
-                    Configure chatbot behaviour, train AI using
-                    documents and URLs, and manage predefined
-                    responses from one centralized dashboard.
-                </p>
-
-            </div>
-
-            <div class="hero-right">
-
-                <div class="orb"></div>
-
-            </div>
-
-        </section>
-
-        <!-- QUICK ACCESS -->
-        <section class="cards">
-
-            <a href="documents.html" class="dashboard-card">
-
-                <i class="fas fa-file-alt"></i>
-
-                <h3>Documents</h3>
-
-                <p>
-                    Manage uploaded AI knowledge documents.
-                </p>
-
-            </a>
-
-            <a href="urls.html" class="dashboard-card">
-
-                <i class="fas fa-link"></i>
-
-                <h3>URLs</h3>
-
-                <p>
-                    Configure approved websites for AI training.
-                </p>
-
-            </a>
-
-            <a href="predefined.html" class="dashboard-card">
-
-                <i class="fas fa-question-circle"></i>
-
-                <h3>Questions</h3>
-
-                <p>
-                    Manage predefined AI responses.
-                </p>
-
-            </a>
-
-        </section>
-
-    </main>
-
-</div>
-
-<!-- CHAT BUTTON -->
-<button id="openChatBtn">
-    <i class="fas fa-robot"></i>
-</button>
-
-<div id="chatWidget" class="hidden">
-
-    <div id="chatHeader">
-
-        <div class="chatBrand">
-
-            <div class="chatLogo">
-                <i class="fas fa-robot"></i>
-            </div>
-
-            <div>
-
-                <strong>MOW AI Assistant</strong>
-
-                <small>Knowledge Engine</small>
-
-            </div>
+            <button onclick="sendChat()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
 
         </div>
 
-        <button onclick="toggleChat()">
-            <i class="fas fa-times"></i>
-        </button>
-
     </div>
 
-    <div id="chatBody"></div>
-
-    <div id="chatInputContainer">
-
-        <input
-            type="text"
-            id="chatInput"
-            placeholder="Ask AI anything..."
-        >
-
-        <button onclick="sendChat()">
-            <i class="fas fa-paper-plane"></i>
-        </button>
-
-    </div>
-
-</div>
-
-<!-- ================= SCRIPTS ================= -->
+    <!-- ================= SCRIPTS ================= -->
     <script src="js/api.js"></script>
 
     <script>
+
+        function toggleSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.toggle('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.toggle('show');
+
+            document.body.classList.toggle('menu-open');
+        }
+
+        function closeSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.remove('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.remove('show');
+
+            document.body.classList.remove('menu-open');
+        }
+
         function showAlert(type, title, message) {
 
             const modal = document.getElementById('customAlert');

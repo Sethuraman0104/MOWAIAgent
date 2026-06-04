@@ -1,360 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOW AI Control Center - Predefined Questions</title>
-<link rel="icon" type="image/png" href="assets/appicon.png">
-<link rel="stylesheet" href="css/admin.css">
-<link rel="stylesheet" href="css/predefined.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOW AI Control Center - Predefined Questions</title>
+    <link rel="icon" type="image/png" href="assets/appicon.png">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/predefined.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<script src="js/api.js"></script>
+    <script src="js/api.js"></script>
 </head>
+
 <body>
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
 
-<div class="page">
-
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="brand-card">
-
-            <div class="logo-shell">
-                <img src="assets/mowlogo.png">
-            </div>
-
-            <h2>MOW AI</h2>
-
-            <p>
-                Knowledge Administration Platform
-            </p>
-
-        </div>
-
-        <nav>
-
-            <a href="MOWAIHome.html" class="nav-card">
-                <i class="fas fa-house"></i>
-                <div>
-                    <strong>Dashboard</strong>
-                    <small>Overview</small>
-                </div>
-            </a>
-
-            <a href="documents.html" class="nav-card">
-                <i class="fas fa-file-lines"></i>
-                <div>
-                    <strong>Documents</strong>
-                    <small>Training Files</small>
-                </div>
-            </a>
-
-            <a href="urls.html" class="nav-card">
-                <i class="fas fa-link"></i>
-                <div>
-                    <strong>URLs</strong>
-                    <small>Knowledge Sources</small>
-                </div>
-            </a>
-
-            <a href="predefined.html" class="nav-card active">
-                <i class="fas fa-circle-question"></i>
-                <div>
-                    <strong>Questions</strong>
-                    <small>AI Answers</small>
-                </div>
-            </a>
-
-        </nav>
-
-    </aside>
-
-    <!-- CONTENT -->
-
-    <main class="content">
-
-        <div class="topbar">
-
+        <div class="mobile-brand">
+            <img src="assets/mowlogo.png" alt="">
             <div>
-
-                <h1><i class="fas fa-list-check"></i> Predefined Questions</h1>
-
-                <p>
-                    Manage AI predefined answers and chatbot responses.
-                </p>
-
+                <h3>MOW AI</h3>
+                <span>Knowledge Administration Platform</span>
             </div>
-
         </div>
+    </div>
 
-        <!-- STATS -->
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-
-                <i class="fas fa-circle-question"></i>
-
-                <div>
-
-                    <h3 id="totalQuestions">0</h3>
-
-                    <span>Total Questions</span>
-
+    <div class="mobile-overlay" onclick="closeSidebar()"></div>
+    <div class="page">
+        <aside class="sidebar">
+            <div>
+                <div class="brand-card">
+                    <div class="logo-shell">
+                        <img src="assets/mowlogo.png" alt="">
+                    </div>
+                    <h2>MOW AI</h2>
+                    <p>
+                        Knowledge Administration Platform
+                    </p>
                 </div>
 
+                <nav>
+                    <a href="MOWAIHome.html" class="nav-card">
+                        <i class="fas fa-house"></i>
+                        <div>
+                            <strong>Dashboard</strong>
+                            <small>Overview</small>
+                        </div>
+                    </a>
+                    <a href="documents.html" class="nav-card">
+                        <i class="fas fa-file-lines"></i>
+                        <div>
+                            <strong>Documents</strong>
+                            <small>Training Files</small>
+                        </div>
+                    </a>
+                    <a href="urls.html" class="nav-card">
+                        <i class="fas fa-link"></i>
+                        <div>
+                            <strong>URLs</strong>
+                            <small>Knowledge Sources</small>
+                        </div>
+                    </a>
+                    <a href="predefined.html" class="nav-card active">
+                        <i class="fas fa-circle-question"></i>
+                        <div>
+                            <strong>Questions</strong>
+                            <small>AI Answers</small>
+                        </div>
+                    </a>
+                </nav>
             </div>
 
-        </div>
+            <!-- FOOTER -->
+            <div class="sidebar-footer">
+                <div class="footer-divider"></div>
+                <div class="app-info">
+                    <div class="app-badge">
+                        <i class="fas fa-robot"></i>
+                        MOW AI
+                    </div>
 
-        <!-- ADD FORM -->
+                    <div class="app-meta">
+                        Version 1.0.0
+                    </div>
 
-        <section class="form-card">
+                    <div class="app-meta">
+                        Developed by MOW ITD Team
+                    </div>
 
-            <div class="section-title">
+                    <div class="app-meta">
+                        © 2026 Ministry of Works
+                    </div>
+                </div>
+            </div>
+        </aside>
 
-                <i class="fas fa-plus-circle"></i>
-
-                Add New Question
-
+        <!-- CONTENT -->
+        <main class="content">
+            <div class="topbar">
+                <div>
+                    <h1><i class="fas fa-list-check"></i> Predefined Questions</h1>
+                    <p>
+                        Manage AI predefined answers and chatbot responses.
+                    </p>
+                </div>
             </div>
 
-            <div class="form-grid">
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-circle-question"></i>
+                    <div>
+                        <h3 id="totalQuestions">0</h3>
+                        <span>Total Questions</span>
+                    </div>
+                </div>
+            </div>
 
-                <input
-                    type="text"
-                    id="question"
-                    placeholder="Question"
-                >
+            <!-- ADD FORM -->
+            <section class="form-card">
+                <div class="section-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Add New Question
+                </div>
 
-                <input
-                    type="text"
-                    id="answer"
-                    placeholder="Answer"
-                >
+                <div class="form-grid">
+                    <input type="text" id="question" placeholder="Question">
+                    <input type="text" id="answer" placeholder="Answer">
+                    <input type="text" id="keywords" placeholder="Keywords (comma separated)">
+                    <button class="save-btn" onclick="addPredefined()">
+                        <i class="fas fa-circle-plus"></i> Add Question
+                    </button>
+                </div>
+            </section>
 
-                <input
-                    type="text"
-                    id="keywords"
-                    placeholder="Keywords (comma separated)"
-                >
+            <!-- SEARCH -->
+            <section class="search-card">
+                <div class="section-title">
+                    <i class="fas fa-search"></i>
+                    Search Questions
+                </div>
+                <input type="text" id="searchInput" placeholder="Search questions...">
+            </section>
 
-                <button
-                    class="save-btn"
-                    onclick="addPredefined()">
+            <!-- CARDS -->
+            <section class="questions-container">
+                <div id="questionsGrid" class="questions-grid">
+                </div>
 
-                    <i class="fas fa-circle-plus"></i> Add Question
+                <div id="emptyState" class="empty-state hidden">
+                    <i class="fas fa-circle-question"></i>
+                    <h3>No Questions Found</h3>
+                    <p>
+                        Create your first predefined answer.
+                    </p>
+                </div>
+            </section>
 
+            <div class="pagination">
+                <button onclick="prevPage()">
+                    <i class="fas fa-arrow-left"></i> Previous
                 </button>
 
+                <span id="pageInfo"></span>
+
+                <button onclick="nextPage()">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
             </div>
-
-        </section>
-
-        <!-- SEARCH -->
-
-        <section class="search-card">
-
-            <div class="section-title">
-
-                <i class="fas fa-search"></i>
-
-                Search Questions
-
-            </div>
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search questions..."
-            >
-
-        </section>
-
-        <!-- CARDS -->
-
-        <section class="questions-container">
-
-            <div
-                id="questionsGrid"
-                class="questions-grid">
-            </div>
-
-            <div
-                id="emptyState"
-                class="empty-state hidden">
-
-                <i class="fas fa-circle-question"></i>
-
-                <h3>No Questions Found</h3>
-
-                <p>
-                    Create your first predefined answer.
-                </p>
-
-            </div>
-
-        </section>
-
-        <div class="pagination">
-
-            <button onclick="prevPage()">
-                <i class="fas fa-arrow-left"></i> Previous
-            </button>
-
-            <span id="pageInfo"></span>
-
-            <button onclick="nextPage()">
-                Next <i class="fas fa-arrow-right"></i>
-            </button>
-
-        </div>
-
-    </main>
-
-</div>
-
-<div id="customAlert" class="custom-alert hidden">
-    <div class="alert-box">
-
-        <div class="alert-icon success" id="alertIcon">
-            <i class="fas fa-circle-check"></i>
-        </div>
-
-        <h3 id="alertTitle">Info</h3>
-
-        <p id="alertMessage">Message</p>
-
-        <div class="alert-actions" id="alertActions">
-            <button class="alert-btn ok" onclick="closeAlert()">OK</button>
-        </div>
-
+        </main>
     </div>
-</div>
 
-<!-- ================= SCRIPT ================= -->
-<script>
-    function showAlert(type, title, message) {
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-box">
+            <div class="alert-icon success" id="alertIcon">
+                <i class="fas fa-circle-check"></i>
+            </div>
 
-    const modal = document.getElementById('customAlert');
-    const icon = document.getElementById('alertIcon');
-    const titleEl = document.getElementById('alertTitle');
-    const msgEl = document.getElementById('alertMessage');
+            <h3 id="alertTitle">Info</h3>
 
-    icon.className = 'alert-icon ' + type;
+            <p id="alertMessage">Message</p>
 
-    if (type === 'success') {
-        icon.innerHTML = '<i class="fas fa-circle-check"></i>';
-    } else if (type === 'error') {
-        icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
-    } else {
-        icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
-    }
+            <div class="alert-actions" id="alertActions">
+                <button class="alert-btn ok" onclick="closeAlert()">OK</button>
+            </div>
+        </div>
+    </div>
 
-    titleEl.textContent = title;
-    msgEl.textContent = message;
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        function toggleSidebar() {
+            document
+                .querySelector('.sidebar')
+                .classList.toggle('show');
 
-    modal.classList.remove('hidden');
-}
+            document
+                .querySelector('.mobile-overlay')
+                .classList.toggle('show');
 
-function closeAlert() {
-    document.getElementById('customAlert').classList.add('hidden');
-}
+            document.body.classList.toggle('menu-open');
+        }
 
-let confirmResolve;
+        function closeSidebar() {
+            document
+                .querySelector('.sidebar')
+                .classList.remove('show');
 
-function showConfirm(title, message) {
-    return new Promise(resolve => {
+            document
+                .querySelector('.mobile-overlay')
+                .classList.remove('show');
 
-        confirmResolve = resolve;
+            document.body.classList.remove('menu-open');
+        }
 
-        document.getElementById('alertTitle').textContent = title;
-        document.getElementById('alertMessage').textContent = message;
+        function showAlert(type, title, message) {
+            const modal = document.getElementById('customAlert');
+            const icon = document.getElementById('alertIcon');
+            const titleEl = document.getElementById('alertTitle');
+            const msgEl = document.getElementById('alertMessage');
 
-        const icon = document.getElementById('alertIcon');
-        icon.className = 'alert-icon warning';
-        icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+            icon.className = 'alert-icon ' + type;
 
-        const actions = document.getElementById('alertActions');
+            if (type === 'success') {
+                icon.innerHTML = '<i class="fas fa-circle-check"></i>';
+            } else if (type === 'error') {
+                icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+            }
 
-        actions.innerHTML = `
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeAlert() {
+            document.getElementById('customAlert').classList.add('hidden');
+        }
+
+        let confirmResolve;
+
+        function showConfirm(title, message) {
+            return new Promise(resolve => {
+
+                confirmResolve = resolve;
+
+                document.getElementById('alertTitle').textContent = title;
+                document.getElementById('alertMessage').textContent = message;
+
+                const icon = document.getElementById('alertIcon');
+                icon.className = 'alert-icon warning';
+                icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+
+                const actions = document.getElementById('alertActions');
+
+                actions.innerHTML = `
             <button class="alert-btn cancel" onclick="resolveConfirm(false)">Cancel</button>
             <button class="alert-btn ok" onclick="resolveConfirm(true)">Delete</button>
         `;
 
-        document.getElementById('customAlert').classList.remove('hidden');
-    });
-}
+                document.getElementById('customAlert').classList.remove('hidden');
+            });
+        }
 
-function resolveConfirm(value) {
-    document.getElementById('customAlert').classList.add('hidden');
-    if (confirmResolve) confirmResolve(value);
-}
+        function resolveConfirm(value) {
+            document.getElementById('customAlert').classList.add('hidden');
+            if (confirmResolve) confirmResolve(value);
+        }
 
-let predefined = [];
-let currentPage = 1;
-const pageSize = 6;
+        let predefined = [];
+        let currentPage = 1;
+        const pageSize = 6;
 
-async function loadPredefined() {
-    try {
-        predefined = await apiGet('/api/chat/predefined/list');
-        currentPage = 1;
-        renderTable();
-    } catch(e) {
-        showAlert(
-    'error',
-    'Load Failed',
-    'Unable to load predefined questions.'
-);
-    }
-}
+        async function loadPredefined() {
+            try {
+                predefined = await apiGet('/api/chat/predefined/list');
+                currentPage = 1;
+                renderTable();
+            } catch (e) {
+                showAlert(
+                    'error',
+                    'Load Failed',
+                    'Unable to load predefined questions.'
+                );
+            }
+        }
 
-function renderTable(){
+        function renderTable() {
 
-    const grid =
-        document.getElementById('questionsGrid');
+            const grid =
+                document.getElementById('questionsGrid');
 
-    const emptyState =
-        document.getElementById('emptyState');
+            const emptyState =
+                document.getElementById('emptyState');
 
-    const search =
-        document.getElementById('searchInput')
-        .value.toLowerCase();
+            const search =
+                document.getElementById('searchInput')
+                    .value.toLowerCase();
 
-    const filtered =
-        predefined.filter(p =>
-            p.question.toLowerCase().includes(search) ||
-            p.answer.toLowerCase().includes(search) ||
-            p.keywords.toLowerCase().includes(search)
-        );
+            const filtered =
+                predefined.filter(p =>
+                    p.question.toLowerCase().includes(search) ||
+                    p.answer.toLowerCase().includes(search) ||
+                    p.keywords.toLowerCase().includes(search)
+                );
 
-    document.getElementById("totalQuestions")
-        .innerText = predefined.length;
+            document.getElementById("totalQuestions")
+                .innerText = predefined.length;
 
-    if(filtered.length===0){
+            if (filtered.length === 0) {
 
-        grid.innerHTML='';
+                grid.innerHTML = '';
 
-        emptyState.classList.remove('hidden');
+                emptyState.classList.remove('hidden');
 
-        return;
-    }
+                return;
+            }
 
-    emptyState.classList.add('hidden');
+            emptyState.classList.add('hidden');
 
-    const start =
-        (currentPage-1)*pageSize;
+            const start =
+                (currentPage - 1) * pageSize;
 
-    const pageData =
-        filtered.slice(start,start+pageSize);
+            const pageData =
+                filtered.slice(start, start + pageSize);
 
-    grid.innerHTML='';
+            grid.innerHTML = '';
 
-    pageData.forEach(p=>{
+            pageData.forEach(p => {
 
-        grid.innerHTML += `
+                grid.innerHTML += `
 
         <div class="question-card">
 
@@ -389,110 +369,111 @@ function renderTable(){
         </div>
 
         `;
-    });
+            });
 
-    const totalPages =
-        Math.ceil(filtered.length/pageSize)||1;
+            const totalPages =
+                Math.ceil(filtered.length / pageSize) || 1;
 
-    document.getElementById('pageInfo')
-        .innerText =
-        `Page ${currentPage} of ${totalPages}`;
-}
+            document.getElementById('pageInfo')
+                .innerText =
+                `Page ${currentPage} of ${totalPages}`;
+        }
 
-function nextPage(){
-    const totalPages = Math.ceil(predefined.length / pageSize) || 1;
-    if(currentPage < totalPages){
-        currentPage++;
-        renderTable();
-    }
-}
+        function nextPage() {
+            const totalPages = Math.ceil(predefined.length / pageSize) || 1;
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        }
 
-function prevPage(){
-    if(currentPage > 1){
-        currentPage--;
-        renderTable();
-    }
-}
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
 
-document.getElementById('searchInput').addEventListener('input', () => {
-    currentPage = 1;
-    renderTable();
-});
+        document.getElementById('searchInput').addEventListener('input', () => {
+            currentPage = 1;
+            renderTable();
+        });
 
-async function addPredefined(){
-    const q = document.getElementById('question').value.trim();
-    const a = document.getElementById('answer').value.trim();
-    const k = document.getElementById('keywords').value.trim();
+        async function addPredefined() {
+            const q = document.getElementById('question').value.trim();
+            const a = document.getElementById('answer').value.trim();
+            const k = document.getElementById('keywords').value.trim();
 
-    if(!q || !a) return showAlert(
-    'warning',
-    'Validation Error',
-    'Question and Answer are required.'
-);
+            if (!q || !a) return showAlert(
+                'warning',
+                'Validation Error',
+                'Question and Answer are required.'
+            );
 
-    try{
-        await apiPost('/api/chat/predefined', { question: q, answer: a, keywords: k });
-        document.getElementById('question').value = '';
-        document.getElementById('answer').value = '';
-        document.getElementById('keywords').value = '';
+            try {
+                await apiPost('/api/chat/predefined', { question: q, answer: a, keywords: k });
+                document.getElementById('question').value = '';
+                document.getElementById('answer').value = '';
+                document.getElementById('keywords').value = '';
+                loadPredefined();
+            } catch {
+                showAlert(
+                    'error',
+                    'Save Failed',
+                    'Unable to add predefined question.'
+                );
+            }
+        }
+
+        async function deletePredefined(id) {
+            const confirmed = await showConfirm(
+                'Delete Question',
+                'Are you sure you want to delete this predefined question?'
+            );
+
+            if (!confirmed) return;
+            try {
+                await apiDelete(`/api/chat/predefined/${id}`); // ✅ matches controller route
+                loadPredefined();
+            } catch (err) {
+                console.error(err);
+                showAlert(
+                    'error',
+                    'Delete Failed',
+                    'Unable to delete predefined question. Please try again.'
+                );
+            }
+        }
+
         loadPredefined();
-    }catch{
-        showAlert(
-    'error',
-    'Save Failed',
-    'Unable to add predefined question.'
-);
-    }
-}
 
-async function deletePredefined(id){
-    const confirmed = await showConfirm(
-    'Delete Question',
-    'Are you sure you want to delete this predefined question?'
-);
+        /* ===== Logo Ripple ===== */
+        function logoRipple(e) {
+            const bg = e.currentTarget.querySelector('.logo-bg');
+            const ripple = document.createElement('span');
 
-if (!confirmed) return;
-    try {
-        await apiDelete(`/api/chat/predefined/${id}`); // ✅ matches controller route
-        loadPredefined();
-    } catch (err) {
-        console.error(err);
-        showAlert(
-    'error',
-    'Delete Failed',
-    'Unable to delete predefined question. Please try again.'
-);
-    }
-}
+            ripple.style.position = 'absolute';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            ripple.style.borderRadius = '50%';
+            ripple.style.background = 'rgba(255,255,255,.6)';
+            ripple.style.left = (e.offsetX) + 'px';
+            ripple.style.top = (e.offsetY) + 'px';
+            ripple.style.transform = 'scale(1)';
+            ripple.style.opacity = '1';
+            ripple.style.transition = 'all .6s ease';
 
-loadPredefined();
+            bg.appendChild(ripple);
 
-/* ===== Logo Ripple ===== */
-function logoRipple(e){
-    const bg = e.currentTarget.querySelector('.logo-bg');
-    const ripple = document.createElement('span');
+            setTimeout(() => {
+                ripple.style.transform = 'scale(15)';
+                ripple.style.opacity = '0';
+            }, 10);
 
-    ripple.style.position='absolute';
-    ripple.style.width='20px';
-    ripple.style.height='20px';
-    ripple.style.borderRadius='50%';
-    ripple.style.background='rgba(255,255,255,.6)';
-    ripple.style.left=(e.offsetX)+'px';
-    ripple.style.top=(e.offsetY)+'px';
-    ripple.style.transform='scale(1)';
-    ripple.style.opacity='1';
-    ripple.style.transition='all .6s ease';
-
-    bg.appendChild(ripple);
-
-    setTimeout(()=>{
-        ripple.style.transform='scale(15)';
-        ripple.style.opacity='0';
-    },10);
-
-    setTimeout(()=>ripple.remove(),600);
-}
-</script>
+            setTimeout(() => ripple.remove(), 600);
+        }
+    </script>
 
 </body>
+
 </html>
