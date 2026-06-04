@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manage Documents</title>
-
-<link rel="stylesheet" href="css/style.css">
+<title>MOW AI Control Center - Manage Documents</title>
+<link rel="icon" type="image/png" href="assets/appicon.png">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/documents.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script src="js/api.js"></script>
@@ -13,71 +14,215 @@
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="app-header">
-    <div class="logo-area animated-logo" onclick="logoRipple(event)">
-        <div class="logo-bg">
-            <img src="assets/mowlogo.png" class="logo-img" alt="Logo">
-            <span class="shine"></span>
+<div class="page">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand-card">
+
+            <div class="logo-shell">
+                <img src="assets/mowlogo.png" alt="">
+            </div>
+
+            <h2>MOW AI</h2>
+
+            <p>
+                Knowledge Administration Platform
+            </p>
+
         </div>
-        <span class="logo-text">MOW AI - Documents</span>
+
+        <nav>
+
+            <a href="MOWAIHome.html" class="nav-card">
+                <i class="fas fa-house"></i>
+                <div>
+                    <strong>Dashboard</strong>
+                    <small>Overview</small>
+                </div>
+            </a>
+
+            <a href="documents.html" class="nav-card active">
+                <i class="fas fa-file-lines"></i>
+                <div>
+                    <strong>Documents</strong>
+                    <small>Training Files</small>
+                </div>
+            </a>
+
+            <a href="urls.html" class="nav-card">
+                <i class="fas fa-link"></i>
+                <div>
+                    <strong>URLs</strong>
+                    <small>Knowledge Sources</small>
+                </div>
+            </a>
+
+            <a href="predefined.html" class="nav-card">
+                <i class="fas fa-circle-question"></i>
+                <div>
+                    <strong>Questions</strong>
+                    <small>AI Answers</small>
+                </div>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <!-- TOP HEADER -->
+
+        <div class="topbar">
+
+            <div>
+
+                <h1><i class="fas fa-folder-open"></i> Document Management</h1>
+
+                <p>
+                    Manage AI training documents and knowledge sources.
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- UPLOAD -->
+         <div class="stats-grid">
+
+    <div class="stat-card">
+        <i class="fas fa-file-lines"></i>
+        <div>
+            <h3 id="totalDocs">0</h3>
+            <span>Total Documents</span>
+        </div>
     </div>
 
-    <a href="index.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-</header>
+    <div class="stat-card">
+        <i class="fas fa-database"></i>
+        <div>
+            <h3 id="currentPageNo">1</h3>
+            <span>Current Page</span>
+        </div>
+    </div>
 
-<!-- ================= ADD DOCUMENT ================= -->
-<section class="glass-card">
-    <h2><i class="fas fa-upload"></i> Upload New Document</h2>
+    <div class="stat-card">
+        <i class="fas fa-magnifying-glass"></i>
+        <div>
+            <h3 id="searchResults">0</h3>
+            <span>Search Results</span>
+        </div>
+    </div>
 
-    <div class="upload-row">
-        <div class="file-upload">
-    <input type="file" id="docFile">
-    <label for="docFile" class="file-label">
-        <i class="fas fa-file-upload"></i>
-        <span class="file-text">Choose Document</span>
-    </label>
 </div>
-        <button class="btn-primary" onclick="uploadDocument()">
-            <i class="fas fa-cloud-upload-alt"></i> Upload
-        </button>
-    </div>
-</section>
 
-<!-- ================= DOCUMENT LIST ================= -->
-<section class="glass-card">
-    <div class="table-header">
-        <h2><i class="fas fa-list"></i> All Documents</h2>
-        <input type="text" id="searchInput" placeholder="Search documents...">
-    </div>
+        <section class="upload-card">
 
-    <div class="table-wrapper">
-        <table id="documentsTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Created At</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div id="emptyState" class="empty-state hidden">
-    <i class="fas fa-file-alt"></i>
-    <h3>No Documents Found</h3>
-    <p>Upload your first document to get started.</p>
+            <div class="section-title">
+
+                <i class="fas fa-cloud-upload-alt"></i>
+
+                Upload New Document
+
+            </div>
+
+            <div class="upload-row">
+
+                <div class="file-upload">
+
+                    <input type="file" id="docFile">
+
+                    <label for="docFile">
+
+                        <i class="fas fa-file"></i>
+
+                        <span class="file-text">
+                            Select Document
+                        </span>
+
+                    </label>
+
+                </div>
+
+                <button
+                    class="upload-btn"
+                    onclick="uploadDocument()">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- SEARCH -->
+
+        <section class="search-card">
+
+            <div class="section-title">
+
+                <i class="fas fa-search"></i>
+
+                Search Documents
+
+            </div>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search documents..."
+            >
+
+        </section>
+
+        <!-- DOCUMENTS -->
+
+        <section class="documents-container">
+
+            <div
+                id="documentsGrid"
+                class="documents-grid">
+            </div>
+
+            <div
+                id="emptyState"
+                class="empty-state hidden">
+
+                <i class="fas fa-file-circle-xmark"></i>
+
+                <h3>No Documents Found</h3>
+
+                <p>
+                    Upload your first AI document.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- PAGINATION -->
+
+        <div class="pagination">
+
+            <button onclick="prevPage()">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+
+            <span id="pageInfo"></span>
+
+            <button onclick="nextPage()">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+
+        </div>
+
+    </main>
+
 </div>
-    </div>
-
-    <div class="pagination">
-        <button onclick="prevPage()">Prev</button>
-        <span id="pageInfo"></span>
-        <button onclick="nextPage()">Next</button>
-    </div>
-</section>
 
 <!-- ================= CUSTOM ALERT ================= -->
 <div id="customAlert" class="custom-alert hidden">
@@ -232,6 +377,9 @@ async function loadDocuments(){
         documents =
             await apiGet('/api/ai-docs/list');
 
+            document.getElementById('totalDocs').innerText =
+    documents.length;
+
         currentPage = 1;
 
         renderTable();
@@ -254,45 +402,94 @@ async function loadDocuments(){
 }
 
 function renderTable(){
-    const tbody = document.querySelector('#documentsTable tbody');
-    const emptyState = document.getElementById('emptyState');
 
-    const search = document.getElementById('searchInput').value.toLowerCase();
+    const grid =
+        document.getElementById('documentsGrid');
 
-    const filtered = documents.filter(d =>
-        d.title.toLowerCase().includes(search)
-    );
+    const emptyState =
+        document.getElementById('emptyState');
 
-    // ✅ EMPTY STATE HANDLING
-    if (filtered.length === 0) {
-        tbody.innerHTML = '';
+    const search =
+        document.getElementById('searchInput')
+        .value.toLowerCase();
+
+    const filtered =
+        documents.filter(d =>
+            d.title.toLowerCase().includes(search)
+        );
+
+        document.getElementById('totalDocs').innerText =
+    filtered.length;
+
+    document.getElementById('searchResults').innerText =
+    filtered.length;
+
+document.getElementById('currentPageNo').innerText =
+    currentPage;
+
+    if(filtered.length === 0){
+
+        grid.innerHTML='';
+
         emptyState.classList.remove('hidden');
-        document.getElementById('pageInfo').innerText = '';
+
+        document.getElementById('pageInfo')
+            .innerText='';
+
         return;
-    } else {
-        emptyState.classList.add('hidden');
     }
 
-    const start = (currentPage - 1) * pageSize;
-    const pageData = filtered.slice(start, start + pageSize);
+    emptyState.classList.add('hidden');
 
-    tbody.innerHTML = '';
-    pageData.forEach(d => {
-        tbody.innerHTML += `
-        <tr>
-            <td>${d.documentId}</td>
-            <td>${d.title}</td>
-            <td>${new Date(d.createdAt).toLocaleString()}</td>
-            <td>
-                <button class="btn-danger" onclick="deleteDocument(${d.documentId})">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </td>
-        </tr>`;
+    const start =
+        (currentPage-1)*pageSize;
+
+    const pageData =
+        filtered.slice(
+            start,
+            start+pageSize
+        );
+
+    grid.innerHTML='';
+
+    pageData.forEach(d=>{
+
+        grid.innerHTML += `
+
+        <div class="document-card">
+
+            <div class="document-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+
+            <div class="document-content">
+
+                <h3>${d.title}</h3>
+
+                <p>
+                    ${new Date(d.createdAt)
+                    .toLocaleString()}
+                </p>
+
+            </div>
+
+            <button
+                class="delete-btn"
+                onclick="deleteDocument(${d.documentId})"
+            >
+                <i class="fas fa-trash"></i>
+            </button>
+
+        </div>
+
+        `;
     });
 
-    const totalPages = Math.ceil(filtered.length / pageSize) || 1;
-    document.getElementById('pageInfo').innerText =
+    const totalPages =
+        Math.ceil(filtered.length/pageSize)||1;
+
+    document.getElementById('pageInfo')
+        .innerText =
         `Page ${currentPage} of ${totalPages}`;
 }
 

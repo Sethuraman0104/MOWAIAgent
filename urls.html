@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manage URLs</title>
-
-<link rel="stylesheet" href="css/style.css">
+<title>MOW AI Control Center - Manage URLs</title>
+<link rel="icon" type="image/png" href="assets/appicon.png">
+<link rel="stylesheet" href="css/admin.css">
+<link rel="stylesheet" href="css/urls.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script src="js/api.js"></script>
@@ -13,79 +14,229 @@
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="app-header">
-    <div class="logo-area animated-logo" onclick="logoRipple(event)">
-        <div class="logo-bg">
-            <img src="assets/mowlogo.png" class="logo-img" alt="Logo">
-            <span class="shine"></span>
-        </div>
-        <span class="logo-text">MOW AI - URLs</span>
-    </div>
+<div class="page">
 
-    <a href="index.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Back
-    </a>
-</header>
+    <!-- SIDEBAR -->
 
-<!-- ================= ADD URL ================= -->
-<section class="glass-card add-url-section">
-    <h2 class="section-title">
-        <i class="fas fa-link"></i> Add New URL
-    </h2>
+    <aside class="sidebar">
 
-    <div class="form-row">
-        <div class="form-group">
-            <label for="urlTitle">URL Title</label>
-            <input type="text" id="urlTitle" class="glass-input" placeholder="Enter URL title">
+        <div class="brand-card">
+
+            <div class="logo-shell">
+                <img src="assets/mowlogo.png" alt="">
+            </div>
+
+            <h2>MOW AI</h2>
+
+            <p>
+                Knowledge Administration Platform
+            </p>
+
         </div>
 
-        <div class="form-group">
-            <label for="urlInput">URL</label>
-            <input type="text" id="urlInput" class="glass-input" placeholder="https://example.com">
+        <nav>
+
+            <a href="MOWAIHome.html" class="nav-card">
+                <i class="fas fa-house"></i>
+                <div>
+                    <strong>Dashboard</strong>
+                    <small>Overview</small>
+                </div>
+            </a>
+
+            <a href="documents.html" class="nav-card">
+                <i class="fas fa-file-lines"></i>
+                <div>
+                    <strong>Documents</strong>
+                    <small>Training Files</small>
+                </div>
+            </a>
+
+            <a href="urls.html" class="nav-card active">
+                <i class="fas fa-link"></i>
+                <div>
+                    <strong>URLs</strong>
+                    <small>Knowledge Sources</small>
+                </div>
+            </a>
+
+            <a href="predefined.html" class="nav-card">
+                <i class="fas fa-circle-question"></i>
+                <div>
+                    <strong>Questions</strong>
+                    <small>AI Answers</small>
+                </div>
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENT -->
+
+    <main class="content">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1><i class="fas fa-globe"></i> URL Management</h1>
+
+                <p>
+                    Manage website sources used by the AI knowledge base.
+                </p>
+
+            </div>
+
         </div>
 
-        <div class="form-group add-btn-group">
-            <button class="btn-primary" onclick="addUrl()">
-                <i class="fas fa-plus"></i> Add URL
+        <!-- STATS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <i class="fas fa-link"></i>
+
+                <div>
+
+                    <h3 id="totalUrls">0</h3>
+
+                    <span>Total URLs</span>
+
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <i class="fas fa-search"></i>
+
+                <div>
+
+                    <h3 id="searchResults">0</h3>
+
+                    <span>Search Results</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ADD URL -->
+
+        <section class="url-form-card">
+
+            <div class="section-title">
+
+                <i class="fas fa-plus-circle"></i>
+
+                Add New Website Source
+
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>Website Title</label>
+
+                    <input
+                        type="text"
+                        id="urlTitle"
+                        placeholder="Website Title">
+
+                </div>
+
+                <div class="form-group">
+
+                    <label>Website URL</label>
+
+                    <input
+                        type="text"
+                        id="urlInput"
+                        placeholder="https://example.com">
+
+                </div>
+
+                <button
+                    class="add-url-btn"
+                    onclick="addUrl()">
+
+                    <i class="fas fa-link"></i>
+
+                    Add URL
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- SEARCH -->
+
+        <section class="search-card">
+
+            <div class="section-title">
+
+                <i class="fas fa-search"></i>
+
+                Search URLs
+
+            </div>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search URLs...">
+
+        </section>
+
+        <!-- URL CARDS -->
+
+        <section class="urls-container">
+
+            <div
+                id="urlsGrid"
+                class="urls-grid">
+            </div>
+
+            <div
+                id="emptyState"
+                class="empty-state hidden">
+
+                <i class="fas fa-link"></i>
+
+                <h3>No URLs Found</h3>
+
+                <p>
+                    Add your first website source.
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- PAGINATION -->
+
+        <div class="pagination">
+
+            <button onclick="prevPage()">
+                <i class="fas fa-arrow-left"></i> Previous
             </button>
+
+            <span id="pageInfo"></span>
+
+            <button onclick="nextPage()">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+
         </div>
-    </div>
-</section>
 
+    </main>
 
-<!-- ================= URL LIST ================= -->
-<section class="glass-card">
-    <div class="table-header">
-        <h2><i class="fas fa-list"></i> All URLs</h2>
-        <input type="text" id="searchInput" placeholder="Search URLs...">
-    </div>
-
-    <div class="table-wrapper">
-        <table id="urlsTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>URL</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <div id="emptyState" class="empty-state hidden">
-    <i class="fas fa-link"></i>
-    <h3>No URLs Found</h3>
-    <p>Add your first URL using the form above.</p>
 </div>
-    </div>
-
-    <div class="pagination">
-        <button onclick="prevPage()">Prev</button>
-        <span id="pageInfo"></span>
-        <button onclick="nextPage()">Next</button>
-    </div>
-</section>
 
 <div id="customAlert" class="custom-alert hidden">
     <div class="alert-box">
@@ -249,6 +400,9 @@ async function loadUrls() {
 
         urls = await apiGet('/api/urls/list');
 
+        document.getElementById('totalUrls').innerText =
+    urls.length;
+
         currentPage = 1;
 
         renderTable();
@@ -271,38 +425,42 @@ async function loadUrls() {
 
 /* ================= RENDER TABLE ================= */
 
-function renderTable() {
+function renderTable(){
 
-    const tbody =
-        document.querySelector('#urlsTable tbody');
+    const grid =
+        document.getElementById('urlsGrid');
 
     const emptyState =
         document.getElementById('emptyState');
 
     const search =
         document.getElementById('searchInput')
-        .value
-        .toLowerCase();
+        .value.toLowerCase();
 
-    const filtered = urls.filter(u =>
-        (u.title || '')
+    const filtered =
+        urls.filter(u =>
+            (u.title || '')
             .toLowerCase()
             .includes(search)
-        ||
-        (u.url || '')
+            ||
+            (u.url || '')
             .toLowerCase()
             .includes(search)
-    );
+        );
 
-    // EMPTY STATE
-    if (filtered.length === 0) {
+    document.getElementById('totalUrls').innerText =
+        urls.length;
 
-        tbody.innerHTML = '';
+    document.getElementById('searchResults').innerText =
+        filtered.length;
+
+    if(filtered.length === 0){
+
+        grid.innerHTML='';
 
         emptyState.classList.remove('hidden');
 
-        document.getElementById('pageInfo')
-            .innerText = '';
+        document.getElementById('pageInfo').innerText='';
 
         return;
     }
@@ -313,44 +471,54 @@ function renderTable() {
         (currentPage - 1) * pageSize;
 
     const pageData =
-        filtered.slice(start, start + pageSize);
+        filtered.slice(
+            start,
+            start + pageSize
+        );
 
-    tbody.innerHTML = '';
+    grid.innerHTML='';
 
-    pageData.forEach(u => {
+    pageData.forEach(u=>{
 
-        tbody.innerHTML += `
-        <tr>
+        grid.innerHTML += `
 
-            <td>${u.urlId}</td>
+        <div class="url-card">
 
-            <td>${u.title}</td>
+            <div class="url-icon">
+                <i class="fas fa-globe"></i>
+            </div>
 
-            <td>
-                <a href="${u.url}"
-                   target="_blank"
-                   class="url-link">
+            <div class="url-content">
+
+                <h3>${u.title}</h3>
+
+                <a
+                    href="${u.url}"
+                    target="_blank">
+
                     ${u.url}
+
                 </a>
-            </td>
 
-            <td>
-                <button class="btn-danger"
-                    onclick="deleteUrl(${u.urlId})">
+            </div>
 
-                    <i class="fas fa-trash"></i>
+            <button
+                class="delete-btn"
+                onclick="deleteUrl(${u.urlId})">
 
-                </button>
-            </td>
+                <i class="fas fa-trash"></i>
 
-        </tr>`;
+            </button>
+
+        </div>
+
+        `;
     });
 
     const totalPages =
         Math.ceil(filtered.length / pageSize) || 1;
 
-    document.getElementById('pageInfo')
-        .innerText =
+    document.getElementById('pageInfo').innerText =
         `Page ${currentPage} of ${totalPages}`;
 }
 
