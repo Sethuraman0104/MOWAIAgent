@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MOW AI Control Center - Manage Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="icon" href="../assets/appicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+    <!-- MOBILE HEADER -->
+    <div class="mobile-header">
+
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="mobile-brand">
+            <img src="../assets/mowlogo.png" alt="">
+            <div>
+                <h3>MOW AI</h3>
+                <span>Knowledge Administration Platform</span>
+            </div>
+        </div>
+
+    </div>
+    <div class="mobile-overlay" onclick="closeSidebar()"></div>
+
+    <div class="page">
+        <aside class="sidebar" id="sidebar">
+
+            <div>
+
+                <div class="brand-card">
+
+                    <div class="logo-shell">
+                        <img src="../assets/mowlogo.png" alt="">
+                    </div>
+
+                    <h2>MOW AI</h2>
+
+                    <p>
+                        Knowledge Administration Platform
+                    </p>
+
+                </div>
+
+                <nav>
+
+                    <a href="../MOWAIHome.html" class="nav-card active">
+                        <i class="fas fa-house"></i>
+                        <div>
+                            <strong>Dashboard</strong>
+                            <small>Overview</small>
+                        </div>
+                    </a>
+
+                    <a href="../documents.html" class="nav-card">
+                        <i class="fas fa-file-lines"></i>
+                        <div>
+                            <strong>Documents</strong>
+                            <small>Training Files</small>
+                        </div>
+                    </a>
+
+                    <a href="../urls.html" class="nav-card">
+                        <i class="fas fa-link"></i>
+                        <div>
+                            <strong>URLs</strong>
+                            <small>Knowledge Sources</small>
+                        </div>
+                    </a>
+
+                    <a href="../predefined.html" class="nav-card">
+                        <i class="fas fa-circle-question"></i>
+                        <div>
+                            <strong>Questions</strong>
+                            <small>AI Answers</small>
+                        </div>
+                    </a>
+
+                </nav>
+
+            </div>
+
+            <!-- FOOTER -->
+
+            <div class="sidebar-footer">
+
+                <div class="footer-divider"></div>
+
+                <div class="app-info">
+
+                    <div class="app-badge">
+                        <i class="fas fa-robot"></i>
+                        MOW AI
+                    </div>
+
+                    <div class="app-meta">
+                        Version 1.0.0
+                    </div>
+
+                    <div class="app-meta">
+                        Developed by MOW ITD Team
+                    </div>
+
+                    <div class="app-meta">
+                        © 2026 Ministry of Works
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        <main class="content">
+            <header class="topbar">
+                <div>
+                    <h1><i class="fas fa-users"></i> Manage Users</h1>
+                    <p>User Administration Panel</p>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="user-profile">
+
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                            <span class="user-online"></span>
+                        </div>
+
+                        <div class="user-details">
+                            <strong id="loggedInUser">Loading...</strong>
+                            <small id="loggedInFullName">Authenticated User</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <div class="container">
+
+                <div class="header-right">
+
+                    <div class="btn-group-left">
+                        <button class="btn btn-back" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                    </div>
+
+                    <div class="btn-group-right">
+                        <button class="btn btn-primary" onclick="openModal()">
+                            <i class="fas fa-user-plus"></i> Add User
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- SEARCH (NEW LINE WITH SPACE) -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search users..." onkeyup="filterUsers()">
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTable"></tbody>
+                </table>
+
+            </div>
+        </main>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+
+            <h3>Add / Edit User</h3>
+
+            <input type="hidden" id="userId">
+
+            <input type="text" id="userName" placeholder="Username">
+            <input type="text" id="fullName" placeholder="Full Name">
+            <input type="email" id="email" placeholder="Email">
+
+            <div class="modal-actions">
+                <button class="btn" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveUser()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <!-- ================= CUSTOM ALERT ================= -->
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-box">
+
+            <div class="alert-icon" id="alertIcon">
+                <i class="fas fa-circle-check"></i>
+            </div>
+
+            <h3 id="alertTitle">Success</h3>
+
+            <p id="alertMessage">
+                Uploaded successfully
+            </p>
+
+            <div class="alert-actions" id="alertActions">
+                <button class="alert-btn ok" onclick="closeAlert(true)">
+                    OK
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= LOADING OVERLAY ================= -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-box">
+
+            <div class="loading-spinner"></div>
+
+            <h3>Uploading Document...</h3>
+
+            <p>Please wait while your document is being processed.</p>
+
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script>
+        let users = [];
+        let editingUserId = 0;
+        let loggedInUserName = "";
+        let loggedInFullName = "";
+
+        window.onload = async function () {
+
+            try {
+
+                showLoading(
+                    "Loading Users...",
+                    "Fetching data from server"
+                );
+
+                console.log("Page Load Started");
+
+                const authorized = await validateLogin();
+
+                console.log("Authorized:", authorized);
+
+                if (authorized) {
+
+                    await loadUsers();
+
+                    console.log("Users Loaded Successfully");
+                }
+            }
+            catch (ex) {
+
+                console.error("Startup Error:", ex);
+
+                showAlert(
+                    'error',
+                    'Error',
+                    ex.message || 'Failed to load page'
+                );
+            }
+            finally {
+
+                console.log("Hide Loading");
+
+                hideLoading();
+            }
+        };
+
+        async function validateLogin() {
+
+            try {
+
+                console.log("Before Validate API");
+
+                const response =
+                    await apiGet('/api/auth/validate');
+
+                console.log("After Validate API", response);
+
+                loggedInUserName = response.userName || "";
+                loggedInFullName = response.fullName || "";
+
+                console.log("========== MOW AI LOGIN ==========");
+                console.log("User Name :", loggedInUserName);
+                console.log("Full Name :", loggedInFullName);
+                console.log("Authorized:", response.isAuthorized);
+                console.log("Login Time:", new Date().toLocaleString());
+                console.log("==================================");
+
+                if (!response.isAuthorized) {
+
+                    document.body.innerHTML = `
+            <div class="auth-page">
+                <div class="auth-card">
+
+                    <div class="auth-logo">
+                        <img src="../assets/mowlogo.png">
+                    </div>
+
+                    <div class="auth-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <h2>You Are Not Authorized</h2>
+
+                    <p>
+                        Your Active Directory account was successfully identified,
+                        however you have not been granted access to the
+                        MOW AI Administration Portal.
+                    </p>
+
+                    <div class="auth-info">
+                        Please contact the MOW ITD Team if you require
+                        access to this application.
+                    </div>
+
+                    <div class="auth-footer">
+                        Ministry of Works • MOW AI Administration Portal
+                    </div>
+
+                </div>
+            </div>`;
+
+                    return false;
+                }
+
+                const userElement =
+                    document.getElementById("loggedInUser");
+
+                const fullNameElement =
+                    document.getElementById("loggedInFullName");
+
+                if (userElement)
+                    userElement.textContent =
+                        loggedInUserName || "Unknown User";
+
+                if (fullNameElement)
+                    fullNameElement.textContent =
+                        loggedInFullName || "Authenticated User";
+
+                return true;
+            }
+            catch (e) {
+
+                console.error(e);
+
+                document.body.innerHTML = `
+        <div class="auth-page">
+
+            <div class="auth-card">
+
+                <div class="auth-logo">
+                    <img src="../assets/mowlogo.png">
+                </div>
+
+                <div class="auth-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <h1>MOW AI Control Center</h1>
+
+                <h2>Authentication Failed</h2>
+
+                <p>
+                    We were unable to verify your identity through the Ministry of Works
+                    authentication service.
+                </p>
+
+                <div class="auth-info">
+                    <strong>Possible Reasons:</strong><br><br>
+
+                    • Windows Authentication is not enabled.<br>
+                    • Your Active Directory account could not be identified.<br>
+                    • The MOW AI API service is unavailable.<br>
+                    • Network or security restrictions prevented authentication.
+                </div>
+
+                <button class="auth-btn" onclick="location.reload()">
+                    <i class="fas fa-rotate-right"></i>
+                    Try Again
+                </button>
+
+                <div class="auth-footer">
+                    Ministry of Works • Artificial Intelligence Platform<br>
+                    Version 1.0.0
+                </div>
+
+            </div>
+
+        </div>`;
+
+                return false;
+            }
+        }
+
+        function toggleSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.toggle('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.toggle('show');
+
+            document.body.classList.toggle('menu-open');
+        }
+
+        function closeSidebar() {
+
+            document
+                .querySelector('.sidebar')
+                .classList.remove('show');
+
+            document
+                .querySelector('.mobile-overlay')
+                .classList.remove('show');
+
+            document.body.classList.remove('menu-open');
+        }
+
+        function showAlert(type, title, message) {
+
+            const modal = document.getElementById('customAlert');
+            const icon = document.getElementById('alertIcon');
+            const titleEl = document.getElementById('alertTitle');
+            const msgEl = document.getElementById('alertMessage');
+
+            icon.className = 'alert-icon ' + type;
+
+            if (type === 'success') {
+                icon.innerHTML = '<i class="fas fa-circle-check"></i>';
+            } else if (type === 'error') {
+                icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
+            }
+
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+
+            modal.classList.remove('hidden');
+        }
+
+        function closeAlert() {
+            document.getElementById('customAlert').classList.add('hidden');
+        }
+
+        function goBack() {
+            window.location.href = "security-dashboard.html";
+            // change this if your security main page is different
+        }
+
+        // ================= LOAD USERS =================
+        async function loadUsers() {
+
+            console.log("Loading users...");
+
+            const res = await fetch(
+                API_BASE + '/api/admin-users/list',
+                {
+                    credentials: 'include'
+                });
+
+            console.log("List API Status:", res.status);
+
+            users = await res.json();
+
+            console.log("Users Loaded:", users);
+
+            render(users);
+        }
+
+        // ================= RENDER =================
+        function render(data) {
+
+            const tbody = document.getElementById("userTable");
+
+            tbody.innerHTML = "";
+
+            // ================= EMPTY STATE =================
+            if (!data || data.length === 0) {
+
+                const searchValue =
+                    document.getElementById("searchInput")?.value?.trim();
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+
+                            <div class="empty-content">
+
+                                <i class="fas fa-users-slash empty-icon"></i>
+
+                                <h3>
+                                    ${searchValue
+                        ? 'No Matching Users Found'
+                        : 'No Users Found'}
+                                </h3>
+
+                                <p>
+                                    ${searchValue
+                        ? 'Try a different search keyword.'
+                        : 'There are currently no users configured in the system.'}
+                                </p>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            // ================= USERS =================
+            data.forEach(u => {
+
+                tbody.innerHTML += `
+                <tr>
+
+                    <td>${u.adminUserID}</td>
+
+                    <td>${u.userName}</td>
+
+                    <td>${u.fullName}</td>
+
+                    <td>${u.email || ''}</td>
+
+                    <td>
+                        <span class="status ${u.isActive ? 'active' : 'inactive'}">
+                            ${u.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+
+                    <td>${formatDate(u.createdDate)}</td>
+
+                    <td>
+
+                        <button class="action-btn edit"
+                                onclick="editUser(${u.adminUserID})">
+                            <i class="fas fa-pen"></i> Edit
+                        </button>
+
+                        <button class="action-btn toggle"
+                                onclick="toggleUser(${u.adminUserID})">
+                            <i class="fas fa-sync"></i> Toggle
+                        </button>
+
+                        <button class="action-btn delete"
+                                onclick="deleteUser(${u.adminUserID})">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+
+                    </td>
+
+                </tr>`;
+            });
+        }
+
+        async function saveUser() {
+
+            let userName = document.getElementById("userName").value.trim();
+            let fullName = document.getElementById("fullName").value.trim();
+            let email = document.getElementById("email").value.trim();
+
+            if (!userName || !fullName || !email) {
+                showAlert('error', 'Validation Error', 'All fields are required');
+                return;
+            }
+
+            const obj = {
+                adminUserID: editingUserId,
+                userName,
+                fullName,
+                email,
+
+                createdBy: loggedInUserName,
+
+                auditUserName: loggedInUserName,
+                auditFullName: loggedInFullName,
+
+                clientIP: ""
+            };
+
+            const isEdit = editingUserId > 0;
+
+            showLoading(
+                isEdit ? "Updating User..." : "Creating User...",
+                "Please wait while we save changes"
+            );
+
+            try {
+
+                const res = await fetch(
+                    isEdit ? API_BASE + '/api/admin-users/update'
+                        : API_BASE + '/api/admin-users/create',
+                    {
+                        method: isEdit ? 'PUT' : 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify(obj)
+                    }
+                );
+
+                hideLoading();
+
+                if (res.ok) {
+                    showAlert('success', 'Success',
+                        isEdit ? 'User updated successfully' : 'User created successfully'
+                    );
+                    closeModal();
+                    resetForm();
+                    loadUsers();
+                } else {
+                    showAlert('error', 'Error', 'Operation failed');
+                }
+
+            } catch (e) {
+                hideLoading();
+                showAlert('error', 'Server Error', 'Request failed');
+            }
+        }
+
+        function resetForm() {
+            editingUserId = 0;
+
+            document.getElementById("userId").value = "";
+            document.getElementById("userName").value = "";
+            document.getElementById("fullName").value = "";
+            document.getElementById("email").value = "";
+        }
+
+        // ================= DELETE =================
+        async function deleteUser(id) {
+
+            if (!confirm("Are you sure you want to delete this user?"))
+                return;
+
+            showLoading(
+                "Deleting User...",
+                "Removing user record"
+            );
+
+            try {
+
+                const url =
+                    API_BASE +
+                    '/api/admin-users/delete?id=' + id +
+                    '&auditUserName=' + encodeURIComponent(loggedInUserName) +
+                    '&auditFullName=' + encodeURIComponent(loggedInFullName);
+
+                const res = await fetch(url, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                hideLoading();
+
+                if (res.ok) {
+
+                    showAlert(
+                        'success',
+                        'Deleted',
+                        'User removed successfully'
+                    );
+
+                    loadUsers();
+                }
+                else {
+                    showAlert(
+                        'error',
+                        'Error',
+                        'Delete failed'
+                    );
+                }
+
+            }
+            catch (e) {
+
+                hideLoading();
+
+                showAlert(
+                    'error',
+                    'Error',
+                    'Delete failed'
+                );
+
+                console.error(e);
+            }
+        }
+
+        // ================= TOGGLE =================
+        async function toggleUser(id) {
+
+            showLoading(
+                "Updating Status...",
+                "Changing user state"
+            );
+
+            try {
+
+                const url =
+                    API_BASE +
+                    '/api/admin-users/toggle?id=' + id +
+                    '&auditUserName=' + encodeURIComponent(loggedInUserName) +
+                    '&auditFullName=' + encodeURIComponent(loggedInFullName);
+
+                const res = await fetch(url, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                hideLoading();
+
+                if (res.ok) {
+
+                    showAlert(
+                        'success',
+                        'Updated',
+                        'User status changed'
+                    );
+
+                    loadUsers();
+                }
+                else {
+
+                    showAlert(
+                        'error',
+                        'Error',
+                        'Toggle failed'
+                    );
+                }
+
+            }
+            catch (e) {
+
+                hideLoading();
+
+                showAlert(
+                    'error',
+                    'Error',
+                    'Toggle failed'
+                );
+
+                console.error(e);
+            }
+        }
+
+        // ================= EDIT =================
+        function editUser(id) {
+            let u = users.find(x => x.adminUserID === id);
+
+            editingUserId = u.adminUserID;
+
+            document.getElementById("userId").value = u.adminUserID;
+            document.getElementById("userName").value = u.userName;
+            document.getElementById("fullName").value = u.fullName;
+            document.getElementById("email").value = u.email;
+
+            openModal();
+        }
+
+        // ================= MODAL =================
+        function openModal() {
+            document.getElementById("userModal").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("userModal").style.display = "none";
+            resetForm();
+        }
+
+        // ================= SEARCH =================
+        function filterUsers() {
+
+            let val =
+                document.getElementById("searchInput")
+                    .value
+                    .toLowerCase();
+
+            let filtered = users.filter(u =>
+                (u.userName || '').toLowerCase().includes(val) ||
+                (u.fullName || '').toLowerCase().includes(val) ||
+                (u.email || '').toLowerCase().includes(val)
+            );
+
+            render(filtered);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return "";
+
+            const date = new Date(dateString);
+
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+
+            return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
+        }
+
+        /* ================= LOADING ================= */
+
+        function showLoading(title = "Loading...", message = "Please wait...") {
+
+            const overlay =
+                document.getElementById('loadingOverlay');
+
+            overlay.querySelector('h3').innerText = title;
+            overlay.querySelector('p').innerText = message;
+
+            overlay.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+
+            document
+                .getElementById('loadingOverlay')
+                .classList.add('hidden');
+        }
+    </script>
+
+</body>
+
+</html>

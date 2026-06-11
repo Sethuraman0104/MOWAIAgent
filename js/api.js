@@ -1,10 +1,12 @@
-const API_BASE = 'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
+const API_BASE = 'https://localhost:7186/web-api-services/MOWAIAgentAPI';
 //'https://localhost:7186/web-api-services/MOWAIAgentAPI';
 //'https://tme-mowapp-2.works.test/web-api-services/MOWAIAgentAPI';
 //'https://pme-mowapp-2.works.gov.bh/web-api-services/MOWAIAgentAPI';
 //'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
 async function apiGet(url) {
-    const res = await fetch(API_BASE + url);
+    const res = await fetch(API_BASE + url, {
+        credentials: 'include'
+    });
 
     if (!res.ok) {
         const text = await res.text();
@@ -15,8 +17,10 @@ async function apiGet(url) {
 }
 
 async function apiPost(url, body) {
+
     const res = await fetch(API_BASE + url, {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -32,8 +36,10 @@ async function apiPost(url, body) {
 }
 
 async function apiPostForm(url, formData) {
+
     const res = await fetch(API_BASE + url, {
         method: 'POST',
+        credentials: 'include',
         body: formData
     });
 
@@ -52,13 +58,10 @@ async function apiPostForm(url, formData) {
 
 async function apiDelete(url) {
 
-    console.log("DELETE CALLED:", API_BASE + url);
-
     const res = await fetch(API_BASE + url, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
     });
-
-    console.log("STATUS:", res.status);
 
     if (!res.ok) {
         const text = await res.text();

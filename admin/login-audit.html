@@ -3,14 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
+    <title>MOW AI Control Center - Login & Activity Audit</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MOW AI Control Center - Dashboard</title>
 
-    <link rel="icon" type="image/png" href="assets/appicon.png">
-
+    <link rel="icon" href="../assets/appicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="../css/admin.css">
 </head>
 
 <body>
@@ -22,7 +20,7 @@
         </button>
 
         <div class="mobile-brand">
-            <img src="assets/mowlogo.png" alt="">
+            <img src="../assets/mowlogo.png" alt="">
             <div>
                 <h3>MOW AI</h3>
                 <span>Knowledge Administration Platform</span>
@@ -30,7 +28,6 @@
         </div>
 
     </div>
-
     <div class="mobile-overlay" onclick="closeSidebar()"></div>
 
     <div class="page">
@@ -41,7 +38,7 @@
                 <div class="brand-card">
 
                     <div class="logo-shell">
-                        <img src="assets/mowlogo.png" alt="">
+                        <img src="../assets/mowlogo.png" alt="">
                     </div>
 
                     <h2>MOW AI</h2>
@@ -54,7 +51,7 @@
 
                 <nav>
 
-                    <a href="MOWAIHome.html" class="nav-card active">
+                    <a href="../MOWAIHome.html" class="nav-card active">
                         <i class="fas fa-house"></i>
                         <div>
                             <strong>Dashboard</strong>
@@ -62,7 +59,7 @@
                         </div>
                     </a>
 
-                    <a href="documents.html" class="nav-card">
+                    <a href="../documents.html" class="nav-card">
                         <i class="fas fa-file-lines"></i>
                         <div>
                             <strong>Documents</strong>
@@ -70,7 +67,7 @@
                         </div>
                     </a>
 
-                    <a href="urls.html" class="nav-card">
+                    <a href="../urls.html" class="nav-card">
                         <i class="fas fa-link"></i>
                         <div>
                             <strong>URLs</strong>
@@ -78,7 +75,7 @@
                         </div>
                     </a>
 
-                    <a href="predefined.html" class="nav-card">
+                    <a href="../predefined.html" class="nav-card">
                         <i class="fas fa-circle-question"></i>
                         <div>
                             <strong>Questions</strong>
@@ -121,15 +118,16 @@
 
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="content">
-
             <header class="topbar">
-
                 <div>
-                    <h1><i class="fas fa-robot"></i> MOW AI Control Center</h1>
+                    <h1>
+                        <i class="fas fa-right-to-bracket"></i>
+                        Login & Activity Audit
+                    </h1>
+
                     <p>
-                        Knowledge Management & Chatbot Administration
+                        User Login History, Activity Tracking and Security Monitoring
                     </p>
                 </div>
 
@@ -152,143 +150,85 @@
 
             </header>
 
-            <!-- HERO -->
-            <section class="hero">
+            <div class="container">
 
-                <div class="hero-left">
+                <div class="header-right">
 
-                    <div class="tag">
-                        <i class="fas fa-sparkles"></i>
-                        Artificial Intelligence Platform
+                    <div class="btn-group-left">
+                        <button class="btn btn-back" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
                     </div>
 
-                    <h2>
-                        Manage Knowledge Sources
-                        For MOW AI Chatbot
-                    </h2>
-
-                    <p>
-                        Configure chatbot behaviour, train AI using
-                        documents and URLs, and manage predefined
-                        responses from one centralized dashboard.
-                    </p>
-
                 </div>
 
-                <div class="hero-right">
-
-                    <div class="orb"></div>
-
+                <!-- SEARCH (NEW LINE WITH SPACE) -->
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search Audit Logs..." onkeyup="filterAudit()">
                 </div>
 
-            </section>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>User Name</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Module</th>
+                            <th>Action</th>
+                            <th>Record ID</th>
+                            <th>IP Address</th>
+                            <th>Activity Date</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
 
-            <!-- QUICK ACCESS -->
-            <section class="cards">
+                    <tbody id="auditTable"></tbody>
+                </table>
 
-                <a href="documents.html" class="dashboard-card">
-
-                    <i class="fas fa-file-alt"></i>
-
-                    <h3>Documents</h3>
-
-                    <p>
-                        Manage uploaded AI knowledge documents.
-                    </p>
-
-                </a>
-
-                <a href="urls.html" class="dashboard-card">
-
-                    <i class="fas fa-link"></i>
-
-                    <h3>URLs</h3>
-
-                    <p>
-                        Configure approved websites for AI training.
-                    </p>
-
-                </a>
-
-                <a href="predefined.html" class="dashboard-card">
-
-                    <i class="fas fa-question-circle"></i>
-
-                    <h3>Questions</h3>
-
-                    <p>
-                        Manage predefined AI responses.
-                    </p>
-
-                </a>
-
-                <!-- 🔐 NEW: SECURITY ADMIN MODULE -->
-                <a href="admin/security-dashboard.html" class="dashboard-card">
-
-                    <i class="fas fa-shield-alt"></i>
-
-                    <h3>Security & Admin</h3>
-
-                    <p>
-                        Manage users, audit logs, and AI query monitoring.
-                    </p>
-
-                </a>
-
-            </section>
-
+            </div>
         </main>
 
     </div>
 
-    <!-- CHAT BUTTON -->
-    <button id="openChatBtn">
-        <i class="fas fa-robot"></i>
-    </button>
+    <!-- ================= CUSTOM ALERT ================= -->
+    <div id="customAlert" class="custom-alert hidden">
+        <div class="alert-box">
 
-    <div id="chatWidget" class="hidden">
-
-        <div id="chatHeader">
-
-            <div class="chatBrand">
-
-                <div class="chatLogo">
-                    <i class="fas fa-robot"></i>
-                </div>
-
-                <div>
-
-                    <strong>MOW AI Assistant</strong>
-
-                    <small>Knowledge Engine</small>
-
-                </div>
-
+            <div class="alert-icon" id="alertIcon">
+                <i class="fas fa-circle-check"></i>
             </div>
 
-            <button onclick="toggleChat()">
-                <i class="fas fa-times"></i>
-            </button>
+            <h3 id="alertTitle">Success</h3>
+
+            <p id="alertMessage">
+                Uploaded successfully
+            </p>
+
+            <div class="alert-actions" id="alertActions">
+                <button class="alert-btn ok" onclick="closeAlert(true)">
+                    OK
+                </button>
+            </div>
 
         </div>
-
-        <div id="chatBody"></div>
-
-        <div id="chatInputContainer">
-
-            <input type="text" id="chatInput" placeholder="Ask AI anything...">
-
-            <button onclick="sendChat()">
-                <i class="fas fa-paper-plane"></i>
-            </button>
-
-        </div>
-
     </div>
 
-    <!-- ================= SCRIPTS ================= -->
-    <script src="js/api.js"></script>
+    <!-- ================= LOADING OVERLAY ================= -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-box">
 
+            <div class="loading-spinner"></div>
+
+            <h3>Uploading Document...</h3>
+
+            <p>Please wait while your document is being processed.</p>
+
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
     <script>
         document.addEventListener(
             "DOMContentLoaded",
@@ -308,7 +248,7 @@
                         <div class="auth-card">
 
                             <div class="auth-logo">
-                                <img src="assets/mowlogo.png">
+                                <img src="../assets/mowlogo.png">
                             </div>
 
                             <div class="auth-icon">
@@ -370,7 +310,7 @@
                     <div class="auth-card">
 
                         <div class="auth-logo">
-                            <img src="assets/mowlogo.png">
+                            <img src="../assets/mowlogo.png">
                         </div>
 
                         <div class="auth-icon">
@@ -465,161 +405,191 @@
             document.getElementById('customAlert').classList.add('hidden');
         }
 
-        const chatWidget = document.getElementById('chatWidget');
-        const openBtn = document.getElementById('openChatBtn');
-        const chatBody = document.getElementById('chatBody');
-        const chatInput = document.getElementById('chatInput');
-        const chatHeader = document.getElementById('chatHeader');
-
-        openBtn.onclick = () => {
-            chatWidget.classList.remove('hidden');
-            openBtn.style.display = 'none';
-        };
-
-        function toggleChat() {
-            chatWidget.classList.add('hidden');
-            openBtn.style.display = 'block';
+        function goBack() {
+            window.location.href = "security-dashboard.html";
+            // change this if your security main page is different
         }
 
-        // Append chat messages
-        function appendMessage(role, resp) {
-            const div = document.createElement('div');
-            div.className = 'chatMessage';
+        let audits = [];
 
-            if (role === 'You') {
-                div.innerHTML = `<b>You</b><div class="chatSection">${resp}</div>`;
-            } else {
-                // Parse sections like [PREDEFINED], [DOCUMENT], [URL]
-                const sections = resp.split(/\[([A-Z]+)\]/).filter(s => s.trim());
-                let html = '';
-                if (sections.length >= 2) {
-                    for (let i = 0; i < sections.length; i += 2) {
-                        let type = sections[i], text = sections[i + 1] || '';
-                        let cls = '';
-                        if (type === 'PREDEFINED') cls = 'predefined';
-                        if (type === 'DOCUMENT') cls = 'document';
-                        if (type === 'URL') cls = 'url';
-                        html += `<div class="chatSection ${cls}">${text}</div>`;
-                    }
-                } else {
-                    html = `<div class="chatSection predefined">${resp}</div>`;
-                }
-                div.innerHTML = `<b>AI</b>${html}`;
-            }
-
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        async function sendChat() {
-            const msg = chatInput.value.trim();
-            if (!msg) return;
-
-            appendMessage('You', msg);
-            chatInput.value = '';
-
-            // Show typing animation
-            showTypingIndicator();
-
+        async function loadAudit() {
             try {
-                const res = await fetch(API_BASE + '/api/ai-chat/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: msg,
-                        userId: 1
-                    })
-                });
+                showLoading(
+                    "Loading Audit Logs...",
+                    "Fetching activity history"
+                );
 
-                removeTypingIndicator();
+                const res = await fetch(
+                    API_BASE + '/api/login-audit/list',
+                    {
+                        credentials: 'include'
+                    });
 
-                if (!res.ok)
-                    throw new Error('API Error');
+                audits = await res.json();
 
-                const data = await res.json();
-
-                appendMessage('AI', data.reply);
-
-            } catch (err) {
-
-                removeTypingIndicator();
-
-                console.error(err);
-
+                renderAudit(audits);
+            }
+            catch (ex) {
                 showAlert(
                     'error',
-                    'Connection Failed',
-                    'Unable to connect to AI service. Please check your API.'
+                    'Error',
+                    'Failed to load audit history'
                 );
-
-                appendMessage(
-                    'AI',
-                    '⚠️ Unable to connect to AI service.'
-                );
+            }
+            finally {
+                hideLoading();
             }
         }
 
-        // Press Enter to send
-        chatInput.addEventListener('keydown', e => {
-            if (e.key === 'Enter') sendChat();
-        });
+        window.onload = function () {
+            showLoading("Loading Login & Activity Audit...", "Fetching data from server");
 
-        function showTypingIndicator() {
-            const div = document.createElement('div');
-            div.className = 'chatMessage';
-            div.id = 'typingIndicator';
-
-            div.innerHTML = `
-        <b>AI</b>
-        <div class="chatSection typing">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
-
-            chatBody.appendChild(div);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        function removeTypingIndicator() {
-            const typing = document.getElementById('typingIndicator');
-            if (typing) typing.remove();
-        }
-
-        // Drag functionality for chat widget
-        let drag = false, ox = 0, oy = 0;
-        chatHeader.onmousedown = e => {
-            drag = true;
-            ox = e.clientX - chatWidget.offsetLeft;
-            oy = e.clientY - chatWidget.offsetTop;
-        };
-        document.onmouseup = () => drag = false;
-        document.onmousemove = e => {
-            if (!drag) return;
-            chatWidget.style.left = e.clientX - ox + 'px';
-            chatWidget.style.top = e.clientY - oy + 'px';
+            loadAudit().finally(() => {
+                hideLoading();
+            });
         };
 
-        // Logo ripple effect
-        function logoRipple(e) {
-            const bg = e.currentTarget.querySelector('.logo-bg');
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.width = '20px';
-            ripple.style.height = '20px';
-            ripple.style.borderRadius = '50%';
-            ripple.style.background = 'rgba(255,255,255,.6)';
-            ripple.style.left = e.offsetX + 'px';
-            ripple.style.top = e.offsetY + 'px';
-            ripple.style.transform = 'scale(1)';
-            ripple.style.opacity = '1';
-            ripple.style.transition = 'all .6s ease';
-            bg.appendChild(ripple);
-            setTimeout(() => { ripple.style.transform = 'scale(15)'; ripple.style.opacity = '0'; }, 10);
-            setTimeout(() => ripple.remove(), 600);
+        function renderAudit(data) {
+
+            const tbody =
+                document.getElementById("auditTable");
+
+            tbody.innerHTML = "";
+
+            // ================= NO DATA =================
+            if (!data || data.length === 0) {
+
+                tbody.innerHTML = `
+                <tr>
+                    <td colspan="11" class="empty-state">
+
+                        <div class="empty-box">
+
+                            <i class="fas fa-folder-open"></i>
+
+                            <h3>No Audit Records Found</h3>
+
+                            <p>
+                                No login or activity history is available at the moment.
+                            </p>
+
+                        </div>
+
+                    </td>
+                </tr>
+                `;
+
+                return;
+            }
+
+            data.forEach(a => {
+
+                tbody.innerHTML += `
+                <tr>
+
+                    <td>${a.activityAuditID}</td>
+
+                    <td>${a.userName || ''}</td>
+
+                    <td>${a.fullName || ''}</td>
+
+                    <td>${a.email || ''}</td>
+
+                    <td>
+                        <span class="module-badge">
+                            ${a.moduleName || ''}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="action-badge ${(a.actionType || '').toLowerCase()}">
+                            ${a.actionType || ''}
+                        </span>
+                    </td>
+
+                    <td>${a.recordID || ''}</td>
+
+                    <td>${a.clientIP || ''}</td>
+
+                    <td>${formatDate(a.activityDate)}</td>
+
+                    <td>
+                        <span class="status ${a.isActive ? 'active' : 'inactive'}">
+                            ${a.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                    </td>
+
+                    <td title="${a.details || ''}">
+                        ${(a.details || '').substring(0,60)}
+                    </td>
+
+                </tr>`;
+            });
+        }
+
+        function filterAudit() {
+
+            let val =
+                document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            let filtered = audits.filter(a =>
+
+                (a.userName || '').toLowerCase().includes(val) ||
+
+                (a.fullName || '').toLowerCase().includes(val) ||
+
+                (a.moduleName || '').toLowerCase().includes(val) ||
+
+                (a.actionType || '').toLowerCase().includes(val) ||
+
+                (a.clientIP || '').toLowerCase().includes(val)
+            );
+
+            renderAudit(filtered);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return "";
+
+            const date = new Date(dateString);
+
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+
+            let hours = date.getHours();
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+
+            return `${day}/${month}/${year} ${hours}:${minutes} ${ampm}`;
+        }
+
+        /* ================= LOADING ================= */
+
+        function showLoading(title = "Loading...", message = "Please wait...") {
+
+            const overlay =
+                document.getElementById('loadingOverlay');
+
+            overlay.querySelector('h3').innerText = title;
+            overlay.querySelector('p').innerText = message;
+
+            overlay.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+
+            document
+                .getElementById('loadingOverlay')
+                .classList.add('hidden');
         }
     </script>
+
 </body>
 
 </html>
