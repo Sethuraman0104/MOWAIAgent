@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>MOW AI Control Center - Login & Activity Audit</title>
+    <title>MOW AI Control Center - Login Audit History</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="icon" href="../assets/appicon.png">
@@ -123,11 +123,11 @@
                 <div>
                     <h1>
                         <i class="fas fa-right-to-bracket"></i>
-                        Login & Activity Audit
+                        Login Audit History
                     </h1>
 
                     <p>
-                        User Login History, Activity Tracking and Security Monitoring
+                        Monitor user login attempts, authentication status and security activity.
                     </p>
                 </div>
 
@@ -140,8 +140,8 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInUser">Loading...</strong>
-                            <small id="loggedInFullName">Authenticated User</small>
+                            <strong id="loggedInFullName">Loading...</strong> 
+                            <small id="loggedInUser">Authenticated User</small>
                         </div>
 
                     </div>
@@ -164,7 +164,8 @@
 
                 <!-- SEARCH (NEW LINE WITH SPACE) -->
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search Audit Logs..." onkeyup="filterAudit()">
+                    <input type="text" id="searchInput" placeholder="Search Login Audit History..."
+                        onkeyup="filterAudit()">
                 </div>
 
                 <table>
@@ -174,19 +175,41 @@
                             <th>User Name</th>
                             <th>Full Name</th>
                             <th>Email</th>
-                            <th>Module</th>
-                            <th>Action</th>
-                            <th>Record ID</th>
+                            <th>Login Date</th>
                             <th>IP Address</th>
-                            <th>Activity Date</th>
-                            <th>Status</th>
-                            <th>Details</th>
+                            <th>Browser</th>
+                            <th>Login Status</th>
+                            <th>User Status</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
 
                     <tbody id="auditTable"></tbody>
                 </table>
 
+                <div class="pagination-container">
+
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 0 to 0 of 0 records
+                    </div>
+
+                    <div class="pagination-controls">
+
+                        <button class="btn btn-secondary" onclick="previousPage()" id="btnPrev">
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+
+                        <span id="pageInfo">Page 1 of 1</span>
+
+                        <button class="btn btn-secondary" onclick="nextPage()" id="btnNext">
+                            Next
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
             </div>
         </main>
 
@@ -230,125 +253,175 @@
 
     <script src="../js/api.js"></script>
     <script>
-        document.addEventListener(
-            "DOMContentLoaded",
-            validateLogin
-        );
+        let loggedInUserName = "";
+        let loggedInFullName = "";
+
+        window.onload = async function () {
+
+            try {
+
+                showLoading(
+                    "Loading Login & Activity Audit...",
+                    "Fetching data from server"
+                );
+
+                console.log("Page Load Started");
+
+                const authorized = await validateLogin();
+
+                console.log("Authorized:", authorized);
+
+                if (authorized) {
+
+                    await loadAudit();
+
+                    console.log("Login & Activity Audit Loaded Successfully");
+                }
+            }
+            catch (ex) {
+
+                console.error("Startup Error:", ex);
+
+                showAlert(
+                    'error',
+                    'Error',
+                    ex.message || 'Failed to load page'
+                );
+            }
+            finally {
+
+                console.log("Hide Loading");
+
+                hideLoading();
+            }
+        };
 
         async function validateLogin() {
+
             try {
-                console.log("Calling Validate");
+
+                console.log("Before Validate API");
+
                 const response =
                     await apiGet('/api/auth/validate');
 
-                if (!response.isAuthorized) {
+                console.log("After Validate API", response);
 
-                    document.body.innerHTML = `
-                    <div class="auth-page">
-                        <div class="auth-card">
-
-                            <div class="auth-logo">
-                                <img src="../assets/mowlogo.png">
-                            </div>
-
-                            <div class="auth-icon">
-                                <i class="fas fa-user-lock"></i>
-                            </div>
-
-                            <h1>Access Denied</h1>
-
-                            <h2>You Are Not Authorized</h2>
-
-                            <p>
-                                Your Active Directory account was successfully identified,
-                                however you have not been granted access to the
-                                MOW AI Administration Portal.
-                            </p>
-
-                            <div class="auth-info">
-                                Please contact the MOW ITD Team if you require
-                                access to this application.
-                            </div>
-
-                            <div class="auth-footer">
-                                Ministry of Works • MOW AI Administration Portal
-                            </div>
-
-                        </div>
-                    </div>
-                    `;
-
-                    document.getElementById("loggedInUser").textContent =
-                        response.userName || "Unknown User";
-
-                    document.getElementById("loggedInFullName").textContent =
-                        response.fullName || "Authenticated User";
-                    console.log("========== MOW AI LOGIN ==========");
-                    console.log("User Name :", response.userName);
-                    console.log("Full Name :", response.fullName);
-                    console.log("Authorized:", response.isAuthorized);
-                    console.log("Login Time:", new Date().toLocaleString());
-                    console.log("==================================");
-                    return;
-                }
-
+                loggedInUserName = response.userName || "";
+                loggedInFullName = response.fullName || "";
+                setAuditUser(loggedInUserName, loggedInFullName);
                 console.log("========== MOW AI LOGIN ==========");
-                console.log("User Name :", response.userName);
-                console.log("Full Name :", response.fullName);
+                console.log("User Name :", loggedInUserName);
+                console.log("Full Name :", loggedInFullName);
                 console.log("Authorized:", response.isAuthorized);
                 console.log("Login Time:", new Date().toLocaleString());
                 console.log("==================================");
 
+                if (!response.isAuthorized) {
+
+                    document.body.innerHTML = `
+            <div class="auth-page">
+                <div class="auth-card">
+
+                    <div class="auth-logo">
+                        <img src="../assets/mowlogo.png">
+                    </div>
+
+                    <div class="auth-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <h2>You Are Not Authorized</h2>
+
+                    <p>
+                        Your Active Directory account was successfully identified,
+                        however you have not been granted access to the
+                        MOW AI Administration Portal.
+                    </p>
+
+                    <div class="auth-info">
+                        Please contact the MOW ITD Team if you require
+                        access to this application.
+                    </div>
+
+                    <div class="auth-footer">
+                        Ministry of Works • MOW AI Administration Portal
+                    </div>
+
+                </div>
+            </div>`;
+
+                    return false;
+                }
+
+                const userElement =
+                    document.getElementById("loggedInUser");
+
+                const fullNameElement =
+                    document.getElementById("loggedInFullName");
+
+                if (userElement)
+                    userElement.textContent =
+                        loggedInUserName || "Unknown User";
+
+                if (fullNameElement)
+                    fullNameElement.textContent =
+                        loggedInFullName || "Authenticated User";
+
+                return true;
             }
             catch (e) {
 
                 console.error(e);
 
                 document.body.innerHTML = `
-                <div class="auth-page">
+        <div class="auth-page">
 
-                    <div class="auth-card">
+            <div class="auth-card">
 
-                        <div class="auth-logo">
-                            <img src="../assets/mowlogo.png">
-                        </div>
-
-                        <div class="auth-icon">
-                            <i class="fas fa-shield-halved"></i>
-                        </div>
-
-                        <h1>MOW AI Control Center</h1>
-
-                        <h2>Authentication Failed</h2>
-
-                        <p>
-                            We were unable to verify your identity through the Ministry of Works
-                            authentication service.
-                        </p>
-
-                        <div class="auth-info">
-                            <strong>Possible Reasons:</strong><br><br>
-
-                            • Windows Authentication is not enabled.<br>
-                            • Your Active Directory account could not be identified.<br>
-                            • The MOW AI API service is unavailable.<br>
-                            • Network or security restrictions prevented authentication.
-                        </div>
-
-                        <button class="auth-btn" onclick="location.reload()">
-                            <i class="fas fa-rotate-right"></i>
-                            Try Again
-                        </button>
-
-                        <div class="auth-footer">
-                            Ministry of Works • Artificial Intelligence Platform<br>
-                            Version 1.0.0
-                        </div>
-
-                    </div>
-
+                <div class="auth-logo">
+                    <img src="../assets/mowlogo.png">
                 </div>
-                `;
+
+                <div class="auth-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <h1>MOW AI Control Center</h1>
+
+                <h2>Authentication Failed</h2>
+
+                <p>
+                    We were unable to verify your identity through the Ministry of Works
+                    authentication service.
+                </p>
+
+                <div class="auth-info">
+                    <strong>Possible Reasons:</strong><br><br>
+
+                    • Windows Authentication is not enabled.<br>
+                    • Your Active Directory account could not be identified.<br>
+                    • The MOW AI API service is unavailable.<br>
+                    • Network or security restrictions prevented authentication.
+                </div>
+
+                <button class="auth-btn" onclick="location.reload()">
+                    <i class="fas fa-rotate-right"></i>
+                    Try Again
+                </button>
+
+                <div class="auth-footer">
+                    Ministry of Works • Artificial Intelligence Platform<br>
+                    Version 1.0.0
+                </div>
+
+            </div>
+
+        </div>`;
+
+                return false;
             }
         }
 
@@ -411,6 +484,10 @@
         }
 
         let audits = [];
+        let filteredAudits = [];
+
+        const PAGE_SIZE = 10;
+        let currentPage = 1;
 
         async function loadAudit() {
             try {
@@ -427,7 +504,11 @@
 
                 audits = await res.json();
 
-                renderAudit(audits);
+                filteredAudits = [...audits];
+
+                currentPage = 1;
+
+                renderAudit();
             }
             catch (ex) {
                 showAlert(
@@ -441,113 +522,183 @@
             }
         }
 
-        window.onload = function () {
-            showLoading("Loading Login & Activity Audit...", "Fetching data from server");
-
-            loadAudit().finally(() => {
-                hideLoading();
-            });
-        };
-
-        function renderAudit(data) {
+        function renderAudit() {
 
             const tbody =
                 document.getElementById("auditTable");
 
             tbody.innerHTML = "";
 
-            // ================= NO DATA =================
-            if (!data || data.length === 0) {
+            if (!filteredAudits || filteredAudits.length === 0) {
 
                 tbody.innerHTML = `
-                <tr>
-                    <td colspan="11" class="empty-state">
+        <tr>
+            <td colspan="10" class="empty-state">
 
-                        <div class="empty-box">
+                <div class="empty-box">
 
-                            <i class="fas fa-folder-open"></i>
+                    <i class="fas fa-folder-open"></i>
 
-                            <h3>No Audit Records Found</h3>
+                    <h3>No Login Audit Records Found</h3>
 
-                            <p>
-                                No login or activity history is available at the moment.
-                            </p>
+                    <p>
+                        No user login history is available at the moment.
+                    </p>
 
-                        </div>
+                </div>
 
-                    </td>
-                </tr>
-                `;
+            </td>
+        </tr>`;
+
+                updatePagination();
 
                 return;
             }
 
-            data.forEach(a => {
+            const start =
+                (currentPage - 1) * PAGE_SIZE;
+
+            const end =
+                start + PAGE_SIZE;
+
+            const pageData =
+                filteredAudits.slice(start, end);
+
+            pageData.forEach(a => {
+
+                const loginStatusClass =
+                    a.isAuthorized ? 'active' : 'inactive';
+
+                const loginStatusText =
+                    a.isAuthorized ? 'Success' : 'Failed';
+
+                const userStatusClass =
+                    a.isActive ? 'active' : 'inactive';
+
+                const userStatusText =
+                    a.isActive ? 'Active' : 'Inactive';
 
                 tbody.innerHTML += `
-                <tr>
+        <tr>
 
-                    <td>${a.activityAuditID}</td>
+            <td>${a.loginAuditID}</td>
 
-                    <td>${a.userName || ''}</td>
+            <td>${a.userName || ''}</td>
 
-                    <td>${a.fullName || ''}</td>
+            <td>${a.fullName || ''}</td>
 
-                    <td>${a.email || ''}</td>
+            <td>${a.email || ''}</td>
 
-                    <td>
-                        <span class="module-badge">
-                            ${a.moduleName || ''}
-                        </span>
-                    </td>
+            <td>${formatDate(a.loginDate)}</td>
 
-                    <td>
-                        <span class="action-badge ${(a.actionType || '').toLowerCase()}">
-                            ${a.actionType || ''}
-                        </span>
-                    </td>
+            <td>${a.clientIP || ''}</td>
 
-                    <td>${a.recordID || ''}</td>
+            <td title="${a.browserInfo || ''}">
+                ${(a.browserInfo || '').substring(0, 50)}
+            </td>
 
-                    <td>${a.clientIP || ''}</td>
+            <td>
+                <span class="status ${loginStatusClass}">
+                    ${loginStatusText}
+                </span>
+            </td>
 
-                    <td>${formatDate(a.activityDate)}</td>
+            <td>
+                <span class="status ${userStatusClass}">
+                    ${userStatusText}
+                </span>
+            </td>
 
-                    <td>
-                        <span class="status ${a.isActive ? 'active' : 'inactive'}">
-                            ${a.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                    </td>
+            <td title="${a.remarks || ''}">
+                ${(a.remarks || '').substring(0, 80)}
+            </td>
 
-                    <td title="${a.details || ''}">
-                        ${(a.details || '').substring(0,60)}
-                    </td>
-
-                </tr>`;
+        </tr>`;
             });
+
+            updatePagination();
         }
 
         function filterAudit() {
 
-            let val =
+            const val =
                 document.getElementById("searchInput")
-                .value
-                .toLowerCase();
+                    .value
+                    .toLowerCase();
 
-            let filtered = audits.filter(a =>
+            filteredAudits = audits.filter(a =>
 
                 (a.userName || '').toLowerCase().includes(val) ||
 
                 (a.fullName || '').toLowerCase().includes(val) ||
 
-                (a.moduleName || '').toLowerCase().includes(val) ||
+                (a.email || '').toLowerCase().includes(val) ||
 
-                (a.actionType || '').toLowerCase().includes(val) ||
+                (a.clientIP || '').toLowerCase().includes(val) ||
 
-                (a.clientIP || '').toLowerCase().includes(val)
+                (a.browserInfo || '').toLowerCase().includes(val) ||
+
+                (a.remarks || '').toLowerCase().includes(val)
             );
 
-            renderAudit(filtered);
+            currentPage = 1;
+
+            renderAudit();
+        }
+
+        function updatePagination() {
+
+            const totalRecords =
+                filteredAudits.length;
+
+            const totalPages =
+                Math.ceil(totalRecords / PAGE_SIZE) || 1;
+
+            const startRecord =
+                totalRecords === 0
+                    ? 0
+                    : ((currentPage - 1) * PAGE_SIZE) + 1;
+
+            const endRecord =
+                Math.min(
+                    currentPage * PAGE_SIZE,
+                    totalRecords
+                );
+
+            document.getElementById("pageInfo").innerText =
+                `Page ${currentPage} of ${totalPages}`;
+
+            document.getElementById("paginationInfo").innerText =
+                `Showing ${startRecord} to ${endRecord} of ${totalRecords} records`;
+
+            document.getElementById("btnPrev").disabled =
+                currentPage === 1;
+
+            document.getElementById("btnNext").disabled =
+                currentPage >= totalPages;
+        }
+
+        function previousPage() {
+
+            if (currentPage > 1) {
+
+                currentPage--;
+
+                renderAudit();
+            }
+        }
+
+        function nextPage() {
+
+            const totalPages =
+                Math.ceil(filteredAudits.length / PAGE_SIZE);
+
+            if (currentPage < totalPages) {
+
+                currentPage++;
+
+                renderAudit();
+            }
         }
 
         function formatDate(dateString) {

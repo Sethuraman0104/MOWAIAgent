@@ -142,8 +142,8 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInUser">Loading...</strong>
-                            <small id="loggedInFullName">Authenticated User</small>
+                            <strong id="loggedInFullName">Loading...</strong> 
+                            <small id="loggedInUser">Authenticated User</small>
                         </div>
 
                     </div>
@@ -290,125 +290,158 @@
     <script src="js/api.js"></script>
 
     <script>
-        document.addEventListener(
-            "DOMContentLoaded",
-            validateLogin
-        );
+        let loggedInUserName = "";
+        let loggedInFullName = "";
+        window.onload = async function () {
+
+            try {
+                const authorized = await validateLogin();
+
+                if (authorized) {
+
+                    console.log("Successfully");
+                }
+            }
+            catch (ex) {
+
+                console.error("Startup Error:", ex);
+
+                showAlert(
+                    'error',
+                    'Error',
+                    ex.message || 'Failed to load page'
+                );
+            }
+        };
 
         async function validateLogin() {
+
             try {
-                console.log("Calling Validate");
+
+                console.log("Before Validate API");
+
                 const response =
                     await apiGet('/api/auth/validate');
 
-                if (!response.isAuthorized) {
+                console.log("After Validate API", response);
 
-                    document.body.innerHTML = `
-                    <div class="auth-page">
-                        <div class="auth-card">
+                loggedInUserName = response.userName || "";
+                loggedInFullName = response.fullName || "";
 
-                            <div class="auth-logo">
-                                <img src="assets/mowlogo.png">
-                            </div>
-
-                            <div class="auth-icon">
-                                <i class="fas fa-user-lock"></i>
-                            </div>
-
-                            <h1>Access Denied</h1>
-
-                            <h2>You Are Not Authorized</h2>
-
-                            <p>
-                                Your Active Directory account was successfully identified,
-                                however you have not been granted access to the
-                                MOW AI Administration Portal.
-                            </p>
-
-                            <div class="auth-info">
-                                Please contact the MOW ITD Team if you require
-                                access to this application.
-                            </div>
-
-                            <div class="auth-footer">
-                                Ministry of Works • MOW AI Administration Portal
-                            </div>
-
-                        </div>
-                    </div>
-                    `;
-
-                    document.getElementById("loggedInUser").textContent =
-                        response.userName || "Unknown User";
-
-                    document.getElementById("loggedInFullName").textContent =
-                        response.fullName || "Authenticated User";
-                    console.log("========== MOW AI LOGIN ==========");
-                    console.log("User Name :", response.userName);
-                    console.log("Full Name :", response.fullName);
-                    console.log("Authorized:", response.isAuthorized);
-                    console.log("Login Time:", new Date().toLocaleString());
-                    console.log("==================================");
-                    return;
-                }
+                setAuditUser(loggedInUserName, loggedInFullName);
 
                 console.log("========== MOW AI LOGIN ==========");
-                console.log("User Name :", response.userName);
-                console.log("Full Name :", response.fullName);
+                console.log("User Name :", loggedInUserName);
+                console.log("Full Name :", loggedInFullName);
                 console.log("Authorized:", response.isAuthorized);
                 console.log("Login Time:", new Date().toLocaleString());
                 console.log("==================================");
 
+                if (!response.isAuthorized) {
+
+                    document.body.innerHTML = `
+            <div class="auth-page">
+                <div class="auth-card">
+
+                    <div class="auth-logo">
+                        <img src="../assets/mowlogo.png">
+                    </div>
+
+                    <div class="auth-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <h2>You Are Not Authorized</h2>
+
+                    <p>
+                        Your Active Directory account was successfully identified,
+                        however you have not been granted access to the
+                        MOW AI Administration Portal.
+                    </p>
+
+                    <div class="auth-info">
+                        Please contact the MOW ITD Team if you require
+                        access to this application.
+                    </div>
+
+                    <div class="auth-footer">
+                        Ministry of Works • MOW AI Administration Portal
+                    </div>
+
+                </div>
+            </div>`;
+
+                    return false;
+                }
+
+                const userElement =
+                    document.getElementById("loggedInUser");
+
+                const fullNameElement =
+                    document.getElementById("loggedInFullName");
+
+                if (userElement)
+                    userElement.textContent =
+                        loggedInUserName || "Unknown User";
+
+                if (fullNameElement)
+                    fullNameElement.textContent =
+                        loggedInFullName || "Authenticated User";
+
+                return true;
             }
             catch (e) {
 
                 console.error(e);
 
                 document.body.innerHTML = `
-                <div class="auth-page">
+        <div class="auth-page">
 
-                    <div class="auth-card">
+            <div class="auth-card">
 
-                        <div class="auth-logo">
-                            <img src="assets/mowlogo.png">
-                        </div>
-
-                        <div class="auth-icon">
-                            <i class="fas fa-shield-halved"></i>
-                        </div>
-
-                        <h1>MOW AI Control Center</h1>
-
-                        <h2>Authentication Failed</h2>
-
-                        <p>
-                            We were unable to verify your identity through the Ministry of Works
-                            authentication service.
-                        </p>
-
-                        <div class="auth-info">
-                            <strong>Possible Reasons:</strong><br><br>
-
-                            • Windows Authentication is not enabled.<br>
-                            • Your Active Directory account could not be identified.<br>
-                            • The MOW AI API service is unavailable.<br>
-                            • Network or security restrictions prevented authentication.
-                        </div>
-
-                        <button class="auth-btn" onclick="location.reload()">
-                            <i class="fas fa-rotate-right"></i>
-                            Try Again
-                        </button>
-
-                        <div class="auth-footer">
-                            Ministry of Works • Artificial Intelligence Platform<br>
-                            Version 1.0.0
-                        </div>
-
-                    </div>
-
+                <div class="auth-logo">
+                    <img src="../assets/mowlogo.png">
                 </div>
-                `;
+
+                <div class="auth-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <h1>MOW AI Control Center</h1>
+
+                <h2>Authentication Failed</h2>
+
+                <p>
+                    We were unable to verify your identity through the Ministry of Works
+                    authentication service.
+                </p>
+
+                <div class="auth-info">
+                    <strong>Possible Reasons:</strong><br><br>
+
+                    • Windows Authentication is not enabled.<br>
+                    • Your Active Directory account could not be identified.<br>
+                    • The MOW AI API service is unavailable.<br>
+                    • Network or security restrictions prevented authentication.
+                </div>
+
+                <button class="auth-btn" onclick="location.reload()">
+                    <i class="fas fa-rotate-right"></i>
+                    Try Again
+                </button>
+
+                <div class="auth-footer">
+                    Ministry of Works • Artificial Intelligence Platform<br>
+                    Version 1.0.0
+                </div>
+
+            </div>
+
+        </div>`;
+
+                return false;
             }
         }
 

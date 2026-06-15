@@ -1,11 +1,37 @@
-const API_BASE = 'https://localhost:7186/web-api-services/MOWAIAgentAPI';
-//'https://localhost:7186/web-api-services/MOWAIAgentAPI';
+const API_BASE = 'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
 //'https://tme-mowapp-2.works.test/web-api-services/MOWAIAgentAPI';
 //'https://pme-mowapp-2.works.gov.bh/web-api-services/MOWAIAgentAPI';
 //'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
+//'https://localhost:7186/web-api-services/MOWAIAgentAPI'
+
+// ==============================
+// 🔐 AUDIT USER CONTEXT
+// ==============================
+let auditUserName = "";
+let auditFullName = "";
+
+// Call this after login validation
+function setAuditUser(userName, fullName) {
+    auditUserName = userName || "SYSTEM";
+    auditFullName = fullName || "SYSTEM";
+}
+
+function getAuditHeaders() {
+    return {
+        "X-Audit-User": auditUserName || "SYSTEM",
+        "X-Audit-FullName": auditFullName || "SYSTEM"
+    };
+}
+
+
+// ==============================
+// 🔵 GET
+// ==============================
 async function apiGet(url) {
+
     const res = await fetch(API_BASE + url, {
-        credentials: 'include'
+        credentials: 'include',
+        headers: getAuditHeaders()
     });
 
     if (!res.ok) {
@@ -16,13 +42,16 @@ async function apiGet(url) {
     return await res.json();
 }
 
-async function apiPost(url, body) {
+
+async function apiPost(url, body, extraHeaders = {}) {
 
     const res = await fetch(API_BASE + url, {
         method: 'POST',
         credentials: 'include',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            ...getAuditHeaders(),
+            ...extraHeaders
         },
         body: JSON.stringify(body)
     });
@@ -35,11 +64,19 @@ async function apiPost(url, body) {
     return await res.json();
 }
 
-async function apiPostForm(url, formData) {
+
+// ==============================
+// 🔵 POST (FORM DATA)
+// ==============================
+async function apiPostForm(url, formData, extraHeaders = {}) {
 
     const res = await fetch(API_BASE + url, {
         method: 'POST',
         credentials: 'include',
+        headers: {
+            ...getAuditHeaders(),
+            ...extraHeaders
+        },
         body: formData
     });
 
@@ -56,11 +93,16 @@ async function apiPostForm(url, formData) {
     }
 }
 
+
+// ==============================
+// 🔵 DELETE
+// ==============================
 async function apiDelete(url) {
 
     const res = await fetch(API_BASE + url, {
         method: 'DELETE',
-        credentials: 'include'
+        credentials: 'include',
+        headers: getAuditHeaders()
     });
 
     if (!res.ok) {

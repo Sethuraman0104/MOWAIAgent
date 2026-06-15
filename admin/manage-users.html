@@ -134,8 +134,8 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInUser">Loading...</strong>
-                            <small id="loggedInFullName">Authenticated User</small>
+                            <strong id="loggedInFullName">Loading...</strong> 
+                            <small id="loggedInUser">Authenticated User</small>
                         </div>
 
                     </div>
@@ -181,7 +181,31 @@
                     </thead>
                     <tbody id="userTable"></tbody>
                 </table>
+                <div class="pagination-container">
 
+                    <div class="pagination-info" id="paginationInfo">
+                        Showing 0 to 0 of 0 users
+                    </div>
+
+                    <div class="pagination-controls">
+
+                        <button class="btn btn-secondary" id="btnPrev" onclick="previousPage()">
+                            <i class="fas fa-chevron-left"></i>
+                            Previous
+                        </button>
+
+                        <span id="pageInfo">
+                            Page 1 of 1
+                        </span>
+
+                        <button class="btn btn-secondary" id="btnNext" onclick="nextPage()">
+                            Next
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
             </div>
         </main>
 
@@ -247,9 +271,14 @@
     <script src="../js/api.js"></script>
     <script>
         let users = [];
+        let filteredUsers = [];
+
         let editingUserId = 0;
         let loggedInUserName = "";
         let loggedInFullName = "";
+
+        const PAGE_SIZE = 10;
+        let currentPage = 1;
 
         window.onload = async function () {
 
@@ -495,94 +524,111 @@
 
             console.log("Users Loaded:", users);
 
-            render(users);
+            filteredUsers = [...users];
+
+            currentPage = 1;
+
+            render();
         }
 
         // ================= RENDER =================
-        function render(data) {
+        function render() {
 
-            const tbody = document.getElementById("userTable");
+            const tbody =
+                document.getElementById("userTable");
 
             tbody.innerHTML = "";
 
-            // ================= EMPTY STATE =================
-            if (!data || data.length === 0) {
+            if (!filteredUsers || filteredUsers.length === 0) {
 
                 const searchValue =
-                    document.getElementById("searchInput")?.value?.trim();
+                    document.getElementById("searchInput")
+                        ?.value
+                        ?.trim();
 
                 tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
+        <tr>
+            <td colspan="7" class="empty-state">
 
-                            <div class="empty-content">
+                <div class="empty-content">
 
-                                <i class="fas fa-users-slash empty-icon"></i>
+                    <i class="fas fa-users-slash empty-icon"></i>
 
-                                <h3>
-                                    ${searchValue
+                    <h3>
+                        ${searchValue
                         ? 'No Matching Users Found'
                         : 'No Users Found'}
-                                </h3>
+                    </h3>
 
-                                <p>
-                                    ${searchValue
+                    <p>
+                        ${searchValue
                         ? 'Try a different search keyword.'
                         : 'There are currently no users configured in the system.'}
-                                </p>
+                    </p>
 
-                            </div>
+                </div>
 
-                        </td>
-                    </tr>
-                `;
+            </td>
+        </tr>`;
+
+                updatePagination();
 
                 return;
             }
 
-            // ================= USERS =================
-            data.forEach(u => {
+            const start =
+                (currentPage - 1) * PAGE_SIZE;
+
+            const end =
+                start + PAGE_SIZE;
+
+            const pageData =
+                filteredUsers.slice(start, end);
+
+            pageData.forEach(u => {
 
                 tbody.innerHTML += `
-                <tr>
+        <tr>
 
-                    <td>${u.adminUserID}</td>
+            <td>${u.adminUserID}</td>
 
-                    <td>${u.userName}</td>
+            <td>${u.userName}</td>
 
-                    <td>${u.fullName}</td>
+            <td>${u.fullName}</td>
 
-                    <td>${u.email || ''}</td>
+            <td>${u.email || ''}</td>
 
-                    <td>
-                        <span class="status ${u.isActive ? 'active' : 'inactive'}">
-                            ${u.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                    </td>
+            <td>
+                <span class="status ${u.isActive ? 'active' : 'inactive'}">
+                    ${u.isActive ? 'Active' : 'Inactive'}
+                </span>
+            </td>
 
-                    <td>${formatDate(u.createdDate)}</td>
+            <td>${formatDate(u.createdDate)}</td>
 
-                    <td>
+            <td>
 
-                        <button class="action-btn edit"
-                                onclick="editUser(${u.adminUserID})">
-                            <i class="fas fa-pen"></i> Edit
-                        </button>
+                <button class="action-btn edit"
+                        onclick="editUser(${u.adminUserID})">
+                    <i class="fas fa-pen"></i> Edit
+                </button>
 
-                        <button class="action-btn toggle"
-                                onclick="toggleUser(${u.adminUserID})">
-                            <i class="fas fa-sync"></i> Toggle
-                        </button>
+                <button class="action-btn toggle"
+                        onclick="toggleUser(${u.adminUserID})">
+                    <i class="fas fa-sync"></i> Toggle
+                </button>
 
-                        <button class="action-btn delete"
-                                onclick="deleteUser(${u.adminUserID})">
-                            <i class="fas fa-trash"></i> Delete
-                        </button>
+                <button class="action-btn delete"
+                        onclick="deleteUser(${u.adminUserID})">
+                    <i class="fas fa-trash"></i> Delete
+                </button>
 
-                    </td>
+            </td>
 
-                </tr>`;
+        </tr>`;
             });
+
+            updatePagination();
         }
 
         async function saveUser() {
@@ -806,13 +852,73 @@
                     .value
                     .toLowerCase();
 
-            let filtered = users.filter(u =>
+            filteredUsers = users.filter(u =>
+
                 (u.userName || '').toLowerCase().includes(val) ||
+
                 (u.fullName || '').toLowerCase().includes(val) ||
+
                 (u.email || '').toLowerCase().includes(val)
             );
 
-            render(filtered);
+            currentPage = 1;
+
+            render();
+        }
+
+        function updatePagination() {
+
+            const totalRecords =
+                filteredUsers.length;
+
+            const totalPages =
+                Math.ceil(totalRecords / PAGE_SIZE) || 1;
+
+            const startRecord =
+                totalRecords === 0
+                    ? 0
+                    : ((currentPage - 1) * PAGE_SIZE) + 1;
+
+            const endRecord =
+                Math.min(
+                    currentPage * PAGE_SIZE,
+                    totalRecords
+                );
+
+            document.getElementById("paginationInfo").innerText =
+                `Showing ${startRecord} to ${endRecord} of ${totalRecords} users`;
+
+            document.getElementById("pageInfo").innerText =
+                `Page ${currentPage} of ${totalPages}`;
+
+            document.getElementById("btnPrev").disabled =
+                currentPage === 1;
+
+            document.getElementById("btnNext").disabled =
+                currentPage >= totalPages;
+        }
+
+        function previousPage() {
+
+            if (currentPage > 1) {
+
+                currentPage--;
+
+                render();
+            }
+        }
+
+        function nextPage() {
+
+            const totalPages =
+                Math.ceil(filteredUsers.length / PAGE_SIZE);
+
+            if (currentPage < totalPages) {
+
+                currentPage++;
+
+                render();
+            }
         }
 
         function formatDate(dateString) {

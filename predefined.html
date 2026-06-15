@@ -117,8 +117,8 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInUser">Loading...</strong>
-                            <small id="loggedInFullName">Authenticated User</small>
+                           <strong id="loggedInFullName">Loading...</strong> 
+                            <small id="loggedInUser">Authenticated User</small>
                         </div>
 
                     </div>
@@ -207,127 +207,180 @@
         </div>
     </div>
 
+    <!-- ================= LOADING OVERLAY ================= -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-box">
+
+            <div class="loading-spinner"></div>
+
+            <h3>Uploading Document...</h3>
+
+            <p>Please wait while your document is being processed.</p>
+
+        </div>
+    </div>
+
     <!-- ================= SCRIPT ================= -->
     <script>
-        document.addEventListener(
-            "DOMContentLoaded",
-            validateLogin
-        );
+        let predefined = [];
+        let currentPage = 1;
+        const pageSize = 6;
+        let confirmResolve;
+        let loggedInUserName = "";
+        let loggedInFullName = "";
+
+        window.onload = async function () {
+
+            try {
+                const authorized = await validateLogin();
+
+                if (authorized) {
+
+                    await loadPredefined();
+
+                    console.log("Predefined Q & A Loaded Successfully");
+                }
+            }
+            catch (ex) {
+
+                console.error("Startup Error:", ex);
+
+                showAlert(
+                    'error',
+                    'Error',
+                    ex.message || 'Failed to load page'
+                );
+            }
+        };
 
         async function validateLogin() {
+
             try {
-                console.log("Calling Validate");
+
+                console.log("Before Validate API");
+
                 const response =
                     await apiGet('/api/auth/validate');
 
-                if (!response.isAuthorized) {
+                console.log("After Validate API", response);
 
-                    document.body.innerHTML = `
-                    <div class="auth-page">
-                        <div class="auth-card">
+                loggedInUserName = response.userName || "";
+                loggedInFullName = response.fullName || "";
 
-                            <div class="auth-logo">
-                                <img src="assets/mowlogo.png">
-                            </div>
-
-                            <div class="auth-icon">
-                                <i class="fas fa-user-lock"></i>
-                            </div>
-
-                            <h1>Access Denied</h1>
-
-                            <h2>You Are Not Authorized</h2>
-
-                            <p>
-                                Your Active Directory account was successfully identified,
-                                however you have not been granted access to the
-                                MOW AI Administration Portal.
-                            </p>
-
-                            <div class="auth-info">
-                                Please contact the MOW ITD Team if you require
-                                access to this application.
-                            </div>
-
-                            <div class="auth-footer">
-                                Ministry of Works • MOW AI Administration Portal
-                            </div>
-
-                        </div>
-                    </div>
-                    `;
-
-                    document.getElementById("loggedInUser").textContent =
-                        response.userName || "Unknown User";
-
-                    document.getElementById("loggedInFullName").textContent =
-                        response.fullName || "Authenticated User";
-                    console.log("========== MOW AI LOGIN ==========");
-                    console.log("User Name :", response.userName);
-                    console.log("Full Name :", response.fullName);
-                    console.log("Authorized:", response.isAuthorized);
-                    console.log("Login Time:", new Date().toLocaleString());
-                    console.log("==================================");
-                    return;
-                }
+                setAuditUser(loggedInUserName, loggedInFullName);
 
                 console.log("========== MOW AI LOGIN ==========");
-                console.log("User Name :", response.userName);
-                console.log("Full Name :", response.fullName);
+                console.log("User Name :", loggedInUserName);
+                console.log("Full Name :", loggedInFullName);
                 console.log("Authorized:", response.isAuthorized);
                 console.log("Login Time:", new Date().toLocaleString());
                 console.log("==================================");
 
+                if (!response.isAuthorized) {
+
+                    document.body.innerHTML = `
+            <div class="auth-page">
+                <div class="auth-card">
+
+                    <div class="auth-logo">
+                        <img src="../assets/mowlogo.png">
+                    </div>
+
+                    <div class="auth-icon">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+
+                    <h1>Access Denied</h1>
+
+                    <h2>You Are Not Authorized</h2>
+
+                    <p>
+                        Your Active Directory account was successfully identified,
+                        however you have not been granted access to the
+                        MOW AI Administration Portal.
+                    </p>
+
+                    <div class="auth-info">
+                        Please contact the MOW ITD Team if you require
+                        access to this application.
+                    </div>
+
+                    <div class="auth-footer">
+                        Ministry of Works • MOW AI Administration Portal
+                    </div>
+
+                </div>
+            </div>`;
+
+                    return false;
+                }
+
+                const userElement =
+                    document.getElementById("loggedInUser");
+
+                const fullNameElement =
+                    document.getElementById("loggedInFullName");
+
+                if (userElement)
+                    userElement.textContent =
+                        loggedInUserName || "Unknown User";
+
+                if (fullNameElement)
+                    fullNameElement.textContent =
+                        loggedInFullName || "Authenticated User";
+
+                return true;
             }
             catch (e) {
 
                 console.error(e);
 
                 document.body.innerHTML = `
-                <div class="auth-page">
+        <div class="auth-page">
 
-                    <div class="auth-card">
+            <div class="auth-card">
 
-                        <div class="auth-logo">
-                            <img src="assets/mowlogo.png">
-                        </div>
-
-                        <div class="auth-icon">
-                            <i class="fas fa-shield-halved"></i>
-                        </div>
-
-                        <h1>MOW AI Control Center</h1>
-
-                        <h2>Authentication Failed</h2>
-
-                        <p>
-                            We were unable to verify your identity through the Ministry of Works
-                            authentication service.
-                        </p>
-
-                        <div class="auth-info">
-                            <strong>Possible Reasons:</strong><br><br>
-
-                            • Windows Authentication is not enabled.<br>
-                            • Your Active Directory account could not be identified.<br>
-                            • The MOW AI API service is unavailable.<br>
-                            • Network or security restrictions prevented authentication.
-                        </div>
-
-                        <button class="auth-btn" onclick="location.reload()">
-                            <i class="fas fa-rotate-right"></i>
-                            Try Again
-                        </button>
-
-                        <div class="auth-footer">
-                            Ministry of Works • Artificial Intelligence Platform<br>
-                            Version 1.0.0
-                        </div>
-
-                    </div>
-
+                <div class="auth-logo">
+                    <img src="../assets/mowlogo.png">
                 </div>
-                `;
+
+                <div class="auth-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+
+                <h1>MOW AI Control Center</h1>
+
+                <h2>Authentication Failed</h2>
+
+                <p>
+                    We were unable to verify your identity through the Ministry of Works
+                    authentication service.
+                </p>
+
+                <div class="auth-info">
+                    <strong>Possible Reasons:</strong><br><br>
+
+                    • Windows Authentication is not enabled.<br>
+                    • Your Active Directory account could not be identified.<br>
+                    • The MOW AI API service is unavailable.<br>
+                    • Network or security restrictions prevented authentication.
+                </div>
+
+                <button class="auth-btn" onclick="location.reload()">
+                    <i class="fas fa-rotate-right"></i>
+                    Try Again
+                </button>
+
+                <div class="auth-footer">
+                    Ministry of Works • Artificial Intelligence Platform<br>
+                    Version 1.0.0
+                </div>
+
+            </div>
+
+        </div>`;
+
+                return false;
             }
         }
 
@@ -356,32 +409,48 @@
         }
 
         function showAlert(type, title, message) {
+
             const modal = document.getElementById('customAlert');
             const icon = document.getElementById('alertIcon');
             const titleEl = document.getElementById('alertTitle');
             const msgEl = document.getElementById('alertMessage');
+            const actions = document.getElementById('alertActions');
 
             icon.className = 'alert-icon ' + type;
 
             if (type === 'success') {
                 icon.innerHTML = '<i class="fas fa-circle-check"></i>';
-            } else if (type === 'error') {
+            }
+            else if (type === 'error') {
                 icon.innerHTML = '<i class="fas fa-circle-xmark"></i>';
-            } else {
+            }
+            else {
                 icon.innerHTML = '<i class="fas fa-triangle-exclamation"></i>';
             }
 
             titleEl.textContent = title;
             msgEl.textContent = message;
 
+            // RESET BUTTONS TO NORMAL ALERT MODE
+            actions.innerHTML = `
+        <button class="alert-btn ok" onclick="closeAlert()">
+            OK
+        </button>
+    `;
+
             modal.classList.remove('hidden');
         }
 
         function closeAlert() {
-            document.getElementById('customAlert').classList.add('hidden');
+
+            document.getElementById('customAlert')
+                .classList.add('hidden');
+
+            // clear any previous confirm callback
+            confirmResolve = null;
         }
 
-        let confirmResolve;
+
 
         function showConfirm(title, message) {
             return new Promise(resolve => {
@@ -411,9 +480,24 @@
             if (confirmResolve) confirmResolve(value);
         }
 
-        let predefined = [];
-        let currentPage = 1;
-        const pageSize = 6;
+        /* ================= LOADING ================= */
+        function showLoader(title = "Loading...", message = "Please wait...") {
+
+            const overlay =
+                document.getElementById('loadingOverlay');
+
+            overlay.querySelector('h3').innerText = title;
+            overlay.querySelector('p').innerText = message;
+
+            overlay.classList.remove('hidden');
+        }
+
+        function hideLoader() {
+
+            document
+                .getElementById('loadingOverlay')
+                .classList.add('hidden');
+        }
 
         async function loadPredefined() {
             try {
@@ -538,52 +622,109 @@
         });
 
         async function addPredefined() {
+
             const q = document.getElementById('question').value.trim();
             const a = document.getElementById('answer').value.trim();
             const k = document.getElementById('keywords').value.trim();
 
-            if (!q || !a) return showAlert(
-                'warning',
-                'Validation Error',
-                'Question and Answer are required.'
-            );
+            if (!q || !a) {
+                return showAlert(
+                    'warning',
+                    'Validation Error',
+                    'Question and Answer are required.'
+                );
+            }
+
+            showLoader("Saving Predefined Question...");
 
             try {
-                await apiPost('/api/chat/predefined', { question: q, answer: a, keywords: k });
+
+                await apiPost(
+                    '/api/chat/predefined',
+                    {
+                        question: q,
+                        answer: a,
+                        keywords: k
+                    },
+                    {
+                        "X-Audit-User": loggedInUserName,
+                        "X-Audit-FullName": loggedInFullName
+                    }
+                );
+
                 document.getElementById('question').value = '';
                 document.getElementById('answer').value = '';
                 document.getElementById('keywords').value = '';
-                loadPredefined();
-            } catch {
+
+                await loadPredefined();
+
+                showAlert(
+                    'success',
+                    'Saved Successfully',
+                    'Predefined question added successfully.'
+                );
+            }
+            catch (err) {
+
+                console.error(err);
+
                 showAlert(
                     'error',
                     'Save Failed',
-                    'Unable to add predefined question.'
+                    err.message || 'Unable to add predefined question.'
                 );
+            }
+            finally {
+
+                hideLoader();
             }
         }
 
         async function deletePredefined(id) {
+
             const confirmed = await showConfirm(
                 'Delete Question',
                 'Are you sure you want to delete this predefined question?'
             );
 
-            if (!confirmed) return;
+            if (!confirmed)
+                return;
+
+            showLoader("Deleting Predefined Question...");
+
             try {
-                await apiDelete(`/api/chat/predefined/${id}`); // ✅ matches controller route
-                loadPredefined();
-            } catch (err) {
+
+                await apiDelete(
+                    `/api/chat/predefined/${id}`,
+                    {
+                        "X-Audit-User": loggedInUserName,
+                        "X-Audit-FullName": loggedInFullName
+                    }
+                );
+
+                await loadPredefined();
+
+                showAlert(
+                    'success',
+                    'Deleted Successfully',
+                    'Predefined question deleted successfully.'
+                );
+            }
+            catch (err) {
+
                 console.error(err);
+
                 showAlert(
                     'error',
                     'Delete Failed',
-                    'Unable to delete predefined question. Please try again.'
+                    err.message || 'Unable to delete predefined question.'
                 );
             }
-        }
+            finally {
 
-        loadPredefined();
+                hideLoader();
+            }
+        }
 
         /* ===== Logo Ripple ===== */
         function logoRipple(e) {
