@@ -140,7 +140,7 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInFullName">Loading...</strong> 
+                            <strong id="loggedInFullName">Loading...</strong>
                             <small id="loggedInUser">Authenticated User</small>
                         </div>
 
@@ -167,25 +167,26 @@
                     <input type="text" id="searchInput" placeholder="Search Login Audit History..."
                         onkeyup="filterAudit()">
                 </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Login Date</th>
+                                <th>IP Address</th>
+                                <th>Browser</th>
+                                <th>Login Status</th>
+                                <th>User Status</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Login Date</th>
-                            <th>IP Address</th>
-                            <th>Browser</th>
-                            <th>Login Status</th>
-                            <th>User Status</th>
-                            <th>Remarks</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="auditTable"></tbody>
-                </table>
+                        <tbody id="auditTable"></tbody>
+                    </table>
+                </div>
 
                 <div class="pagination-container">
 
@@ -583,18 +584,29 @@
 
             <td>${a.loginAuditID}</td>
 
-            <td>${a.userName || ''}</td>
+            <td>
+                ${a.userName || ''}
+            </td>
 
-            <td>${a.fullName || ''}</td>
+            <td>
+                ${a.fullName || ''}
+            </td>
 
-            <td>${a.email || ''}</td>
+            <td class="email-cell">
+                ${a.email || ''}
+            </td>
 
-            <td>${formatDate(a.loginDate)}</td>
+            <td>
+                ${formatDate(a.loginDate)}
+            </td>
 
-            <td>${a.clientIP || ''}</td>
+            <td>
+                ${a.clientIP || ''}
+            </td>
 
-            <td title="${a.browserInfo || ''}">
-                ${(a.browserInfo || '').substring(0, 50)}
+            <td class="browser-cell"
+                title="${a.browserInfo || ''}">
+                ${a.browserInfo || ''}
             </td>
 
             <td>
@@ -609,8 +621,9 @@
                 </span>
             </td>
 
-            <td title="${a.remarks || ''}">
-                ${(a.remarks || '').substring(0, 80)}
+            <td class="remarks-cell"
+                title="${a.remarks || ''}">
+                ${a.remarks || ''}
             </td>
 
         </tr>`;

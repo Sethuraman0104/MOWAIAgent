@@ -1619,6 +1619,7 @@ body.menu-open {
 }
 
 /* ================= BUTTONS ================= */
+
 .btn {
     padding: 10px 14px;
     border: none;
@@ -1631,27 +1632,58 @@ body.menu-open {
     gap: 8px;
 }
 
+/* PRIMARY ACTION */
 .btn-primary {
-    background: #0284c7;
-    color: #fff;
+    background: #d50f1b;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(213, 15, 27, 0.25);
 }
 
 .btn-primary:hover {
-    background: #111827;
+    background: #a80717;
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(168, 7, 23, 0.35);
 }
 
+/* BACK BUTTON */
 .btn-back {
-    background: #f3f4f6;
-    color: #111827;
-    border: 1px solid #d1d5db;
+    background: #141725;
+    color: #ffffff;
+    border: 1px solid #141725;
+
+    box-shadow: 0 4px 12px rgba(20, 23, 37, 0.15);
+}
+
+.btn-back i {
+    color: #d50f1b;
+    transition: all 0.25s ease;
 }
 
 .btn-back:hover {
-    background: #e5e7eb;
+    background: #d50f1b;
+    color: #ffffff;
+    border-color: #d50f1b;
+
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(213, 15, 27, 0.30);
+}
+
+.btn-back:hover i {
+    color: #ffffff;
+}
+
+/* SECONDARY BUTTON */
+.btn-secondary {
+    background: #141725;
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background: #1e2238;
     transform: translateY(-2px);
 }
 
+/* BUTTON GROUPS */
 .btn-group-left,
 .btn-group-right {
     display: flex;
@@ -1674,8 +1706,16 @@ body.menu-open {
 }
 
 /* ================= TABLE ================= */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+}
+
 table {
     width: 100%;
+    table-layout: fixed;      /* Fixed column widths */
     border-collapse: collapse;
     background: #fff;
     border-radius: 12px;
@@ -1693,17 +1733,196 @@ td {
     text-align: left;
     border-bottom: 1px solid var(--border);
     font-size: 14px;
+
+    /* Wrap long text */
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
 }
 
 /* Hover only on data rows */
 tbody tr {
-    transition: background 0.2s ease;
+    transition: background .2s ease;
 }
 
 tbody tr:hover {
     background: #f9fafb;
 }
 
+th:last-child,
+td:last-child {
+    width: 220px;
+}
+
+.action-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 60px;
+}
+
+th:nth-child(2),
+td:nth-child(2) {
+    width: 120px;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 180px;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 220px;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 100px;
+}
+
+th:nth-child(6),
+td:nth-child(6) {
+    width: 140px;
+}
+
+th:nth-child(7),
+td:nth-child(7) {
+    width: 220px;
+}
+
+th,
+td {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+#auditTable td,
+#auditTable th {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+}
+
+/* ID */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 70px;
+}
+
+/* Username */
+th:nth-child(2),
+td:nth-child(2) {
+    width: 140px;
+}
+
+/* Full Name */
+th:nth-child(3),
+td:nth-child(3) {
+    width: 180px;
+}
+
+/* Email */
+th:nth-child(4),
+td:nth-child(4) {
+    width: 220px;
+}
+
+/* Login Date */
+th:nth-child(5),
+td:nth-child(5) {
+    width: 160px;
+}
+
+/* IP */
+th:nth-child(6),
+td:nth-child(6) {
+    width: 140px;
+}
+
+/* Browser */
+th:nth-child(7),
+td:nth-child(7) {
+    width: 320px;
+}
+
+/* Login Status */
+th:nth-child(8),
+td:nth-child(8) {
+    width: 120px;
+}
+
+/* User Status */
+th:nth-child(9),
+td:nth-child(9) {
+    width: 120px;
+}
+
+/* Remarks */
+th:nth-child(10),
+td:nth-child(10) {
+    width: 350px;
+}
+
+/* Long content wrapping */
+
+.browser-cell,
+.remarks-cell,
+.email-cell {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+}
+
+/* ================= DETAILS COLUMN ================= */
+
+.details-cell {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    table {
+        min-width: 1400px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .status {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+
+    .details-cell {
+        flex-direction: column;
+    }
+
+    .details-cell::before {
+        margin-bottom: 6px;
+    }
+}
 /* ================= STATUS ================= */
 .status {
     padding: 5px 10px;
@@ -1725,18 +1944,30 @@ tbody tr:hover {
 /* ================= ACTION BUTTONS (MODERN UI) ================= */
 
 .action-btn {
-    padding: 7px 12px;
-    border-radius: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
+
+    border: 1px solid transparent;
+
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    border: 1px solid transparent;
-    transition: all 0.25s ease;
+    justify-content: center;
+    gap: 5px;
+
+    white-space: nowrap;
+    min-height: 36px;
+
     position: relative;
     overflow: hidden;
+
+    transition: all .25s ease;
+}
+
+.action-btn::after{
+    pointer-events:none;
 }
 
 /* hover lift + glow */
@@ -1812,6 +2043,25 @@ tbody tr:hover {
     opacity: 1;
     transition: 0s;
 }
+
+@media (max-width: 768px) {
+
+    .action-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    th:last-child,
+    td:last-child {
+        min-width: 140px;
+    }
+}
+
 .modal {
     display: none;
     position: fixed;

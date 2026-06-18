@@ -141,7 +141,7 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInFullName">Loading...</strong> 
+                            <strong id="loggedInFullName">Loading...</strong>
                             <small id="loggedInUser">Authenticated User</small>
                         </div>
 
@@ -167,26 +167,28 @@
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Search Audit Logs..." onkeyup="filterAudit()">
                 </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User Name</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Module</th>
+                                <th>Action</th>
+                                <th>Record ID</th>
+                                <th>IP Address</th>
+                                <th>Activity Date</th>
+                                <th>Status</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User Name</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Module</th>
-                            <th>Action</th>
-                            <th>Record ID</th>
-                            <th>IP Address</th>
-                            <th>Activity Date</th>
-                            <th>Status</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
+                        <tbody id="auditTable"></tbody>
+                    </table>
+                </div>
 
-                    <tbody id="auditTable"></tbody>
-                </table>
                 <div class="pagination-container">
 
                     <div class="pagination-info" id="paginationInfo">
@@ -252,7 +254,7 @@
     </div>
 
     <script src="../js/api.js"></script>
-    <script>        
+    <script>
         let loggedInUserName = "";
         let loggedInFullName = "";
         let audits = [];
@@ -558,10 +560,11 @@
                 </div>
 
             </td>
-        </tr>
-        `;
+        </tr>`;
 
                 document.getElementById("pageInfo").innerHTML = "";
+                updatePagination();
+
                 return;
             }
 
@@ -576,44 +579,65 @@
 
             pageData.forEach(a => {
 
+                const actionClass =
+                    (a.actionType || '')
+                        .toLowerCase()
+                        .replace(/\s+/g, '-');
+
                 tbody.innerHTML += `
         <tr>
 
-            <td>${a.activityAuditID}</td>
+            <td data-label="ID">
+                ${a.activityAuditID}
+            </td>
 
-            <td>${a.userName || ''}</td>
+            <td data-label="Username">
+                ${a.userName || ''}
+            </td>
 
-            <td>${a.fullName || ''}</td>
+            <td data-label="Full Name">
+                ${a.fullName || ''}
+            </td>
 
-            <td>${a.email || ''}</td>
+            <td data-label="Email">
+                ${a.email || ''}
+            </td>
 
-            <td>
+            <td data-label="Module">
                 <span class="module-badge">
                     ${a.moduleName || ''}
                 </span>
             </td>
 
-            <td>
-                <span class="action-badge ${(a.actionType || '').toLowerCase().replace(/\s/g, '-')}">
+            <td data-label="Action">
+                <span class="action-badge ${actionClass}">
                     ${a.actionType || ''}
                 </span>
             </td>
 
-            <td>${a.recordID || ''}</td>
+            <td data-label="Record ID">
+                ${a.recordID || ''}
+            </td>
 
-            <td>${a.clientIP || ''}</td>
+            <td data-label="IP Address">
+                ${a.clientIP || ''}
+            </td>
 
-            <td>${formatDate(a.activityDate)}</td>
+            <td data-label="Activity Date">
+                ${formatDate(a.activityDate)}
+            </td>
 
-            <td>
+            <td data-label="Status">
                 <span class="status ${a.isActive ? 'active' : 'inactive'}">
                     ${a.isActive ? 'Active' : 'Inactive'}
                 </span>
             </td>
 
-           <td class="details-cell">
-    ${a.details || ''}
-</td>
+            <td data-label="Details"
+                class="details-cell"
+                title="${a.details || ''}">
+                ${a.details || ''}
+            </td>
 
         </tr>`;
             });

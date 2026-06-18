@@ -134,7 +134,7 @@
                         </div>
 
                         <div class="user-details">
-                            <strong id="loggedInFullName">Loading...</strong> 
+                            <strong id="loggedInFullName">Loading...</strong>
                             <small id="loggedInUser">Authenticated User</small>
                         </div>
 
@@ -166,21 +166,23 @@
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Search users..." onkeyup="filterUsers()">
                 </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable"></tbody>
+                    </table>
+                </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Full Name</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Created</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="userTable"></tbody>
-                </table>
                 <div class="pagination-container">
 
                     <div class="pagination-info" id="paginationInfo">
@@ -607,23 +609,28 @@
             <td>${formatDate(u.createdDate)}</td>
 
             <td>
+    <div class="action-group">
 
-                <button class="action-btn edit"
-                        onclick="editUser(${u.adminUserID})">
-                    <i class="fas fa-pen"></i> Edit
-                </button>
+        <button class="action-btn edit"
+                onclick="editUser(${u.adminUserID})">
+            <i class="fas fa-pen"></i>
+            <span>Edit</span>
+        </button>
 
-                <button class="action-btn toggle"
-                        onclick="toggleUser(${u.adminUserID})">
-                    <i class="fas fa-sync"></i> Toggle
-                </button>
+        <button class="action-btn toggle"
+                onclick="toggleUser(${u.adminUserID})">
+            <i class="fas fa-sync"></i>
+            <span>Toggle</span>
+        </button>
 
-                <button class="action-btn delete"
-                        onclick="deleteUser(${u.adminUserID})">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
+        <button class="action-btn delete"
+                onclick="deleteUser(${u.adminUserID})">
+            <i class="fas fa-trash"></i>
+            <span>Delete</span>
+        </button>
 
-            </td>
+    </div>
+</td>
 
         </tr>`;
             });

@@ -1,4 +1,4 @@
-const API_BASE = 'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
+const API_BASE = 'https://localhost:7186/web-api-services/MOWAIAgentAPI';
 //'https://tme-mowapp-2.works.test/web-api-services/MOWAIAgentAPI';
 //'https://pme-mowapp-2.works.gov.bh/web-api-services/MOWAIAgentAPI';
 //'https://teu-mowapp-1.works.test/web-api-services/MOWAIAgentAPI';
