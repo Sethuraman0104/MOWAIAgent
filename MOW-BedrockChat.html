@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>MOW AI Assistant</title>
+    <link rel="icon" type="image/png" href="assets/appicon.png">
+    <link rel="stylesheet" href="css/bedrockchat.css">
+</head>
+
+<body>
+
+    <!-- FLOATING BUTTON -->
+    <button id="mowAiButton" class="mow-ai-button" aria-label="Open MOW AI Assistant">
+        <span class="ai-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M20 11.5C20 16.1944 16.1944 20 11.5 20H5L3 22V11.5C3 6.80558 6.80558 3 11.5 3H12.5C17.1944 3 20 6.80558 20 11.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M8 11.5H8.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                <path d="M12 11.5H12.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                <path d="M16 11.5H16.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            </svg>
+        </span>
+        <span class="ai-label">MOW AI</span>
+    </button>
+
+
+    <!-- CHAT WINDOW -->
+    <div id="chatWindow" class="chat-window" role="dialog" aria-label="MOW AI Assistant" aria-hidden="true">
+
+        <!-- HEADER -->
+        <div class="chat-header">
+
+            <div class="assistant-info">
+                <div class="assistant-avatar">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M20 11.5C20 16.1944 16.1944 20 11.5 20H5L3 22V11.5C3 6.80558 6.80558 3 11.5 3H12.5C17.1944 3 20 6.80558 20 11.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M8 11.5H8.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                        <path d="M12 11.5H12.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                        <path d="M16 11.5H16.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="assistant-name">MOW AI Assistant</div>
+                    <div class="assistant-status"><span class="status-dot"></span>Online</div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="expandChat" class="expand-button" aria-label="Expand chat window" aria-pressed="false" title="Expand">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <button id="closeChat" class="close-button" aria-label="Close chat">&times;</button>
+            </div>
+
+        </div>
+
+
+        <!-- MESSAGES -->
+        <div id="chatMessages" class="chat-messages" aria-live="polite">
+
+            <div class="message-row assistant-row">
+                <div class="message-avatar">AI</div>
+                <div class="message assistant-message">
+                    <div class="message-text">
+                        Hello! 👋<br><br>
+                        I'm the <strong>MOW AI Assistant</strong>.<br><br>
+                        How can I help you today? Ask me about MOW services, policies, procedures, HR information, or other information available in the Ministry of Works documents.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- TYPING INDICATOR -->
+        <div id="typingIndicator" class="typing-container" style="display:none;">
+            <div class="message-avatar">AI</div>
+            <div class="typing-bubble"><span></span><span></span><span></span></div>
+        </div>
+
+
+        <!-- INPUT AREA -->
+        <div class="chat-input-area">
+            <textarea id="chatInput" rows="1" placeholder="Ask MOW AI something..." maxlength="2000" aria-label="Message"></textarea>
+            <button id="sendButton" class="send-button" aria-label="Send message">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M21 3L10 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M21 3L14 21L10 14L3 10L21 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="chat-footer">MOW AI • Powered by MOW-AWS Bedrock</div>
+
+        <!-- RESIZE HANDLE (top-left corner: drag up/left to enlarge) -->
+        <div id="chatResizeHandle"
+             class="chat-resize-handle"
+             role="separator"
+             tabindex="0"
+             aria-label="Resize chat window. Use arrow keys, or double-click to reset."
+             title="Drag to resize (double-click to reset)">
+        </div>
+
+    </div>
+
+
+    <script src="js/bedrockchat.js"></script>
+
+</body>
+
+</html>
